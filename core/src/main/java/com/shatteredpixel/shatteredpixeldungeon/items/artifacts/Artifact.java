@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.spells.GuidingLight;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -173,16 +174,19 @@ public class Artifact extends KindofMisc {
 
 	@Override
 	public String info() {
+		String base;
 		if (cursed && cursedKnown && !isEquipped( Dungeon.hero )) {
-			return super.info() + "\n\n" + Messages.get(Artifact.class, "curse_known");
-			
+			base = super.info() + "\n\n" + Messages.get(Artifact.class, "curse_known");
 		} else if (!isIdentified() && cursedKnown && !isEquipped( Dungeon.hero)) {
-			return super.info() + "\n\n" + Messages.get(Artifact.class, "not_cursed");
-			
+			base = super.info() + "\n\n" + Messages.get(Artifact.class, "not_cursed");
 		} else {
-			return super.info();
-			
+			base = super.info();
 		}
+		String narrative = NarrativeDirector.artifactLoreFor(getClass());
+		if (narrative != null && !narrative.isEmpty()) {
+			base = base + "\n\n" + narrative;
+		}
+		return base;
 	}
 
 	@Override

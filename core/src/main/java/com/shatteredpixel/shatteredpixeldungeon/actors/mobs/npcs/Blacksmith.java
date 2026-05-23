@@ -37,6 +37,8 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.BlacksmithRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcKind;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.BlacksmithSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -83,7 +85,10 @@ public class Blacksmith extends NPC {
 		if (c != Dungeon.hero){
 			return true;
 		}
-		
+
+		String narrativeGreet = NarrativeDirector.greetNpc(NpcKind.BLACKSMITH);
+		if (narrativeGreet != null) GLog.i(narrativeGreet);
+
 		if (!Quest.given) {
 
 			String msg1 = "";

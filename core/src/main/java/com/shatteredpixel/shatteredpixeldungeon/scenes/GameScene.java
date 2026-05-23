@@ -74,6 +74,8 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.lore.LoreFragment;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.DiscardedItemSprite;
@@ -598,6 +600,46 @@ public class GameScene extends PixelScene {
 					&& (InterlevelScene.mode == InterlevelScene.Mode.DESCEND || InterlevelScene.mode == InterlevelScene.Mode.FALL)) {
 				GLog.h(Messages.get(this, "descend"), Dungeon.depth);
 				Sample.INSTANCE.play(Assets.Sounds.DESCEND);
+
+				if (Dungeon.depth == 1 && !NarrativeDirector.introShown()) {
+					String advTitle = NarrativeDirector.adventureTitle();
+					String theme    = NarrativeDirector.dungeonTheme();
+					String tone     = NarrativeDirector.emotionalTone();
+					String quest    = NarrativeDirector.mainQuest();
+					String boss     = NarrativeDirector.bossIdentity();
+					String factions = NarrativeDirector.factionsSummary();
+					if (advTitle != null && !advTitle.isEmpty()) {
+						GLog.h("Sua aventura: %s", advTitle);
+					}
+					if (theme != null && !theme.isEmpty()) {
+						GLog.i("Tema: %s", theme);
+					}
+					if (tone != null && !tone.isEmpty()) {
+						GLog.i("Tom: %s", tone);
+					}
+					if (factions != null && !factions.isEmpty()) {
+						GLog.i("Facções: %s.", factions);
+					}
+					if (quest != null && !quest.isEmpty()) {
+						GLog.p("Objetivo: %s.", quest);
+					}
+					if (boss != null && !boss.isEmpty()) {
+						GLog.n("No fundo da dungeon espera: %s.", boss);
+					}
+					NarrativeDirector.markIntroShown();
+				}
+
+				for (LoreFragment lf : NarrativeDirector.revealForDepth(Dungeon.depth)) {
+					GLog.i(lf.formatted());
+				}
+
+				if (Dungeon.depth == 25 && !NarrativeDirector.bossRevealed()) {
+					String boss = NarrativeDirector.bossIdentity();
+					if (boss != null && !boss.isEmpty()) {
+						GLog.n("Você sente a presença de %s. O fim está aqui.", boss);
+					}
+					NarrativeDirector.markBossRevealed();
+				}
 				
 				for (Char ch : Actor.chars()){
 					if (ch instanceof DriedRose.GhostHero){

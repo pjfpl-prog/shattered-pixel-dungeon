@@ -43,6 +43,8 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcKind;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.GhostSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
@@ -135,7 +137,10 @@ public class Ghost extends NPC {
 		if (c != Dungeon.hero){
 			return super.interact(c);
 		}
-		
+
+		String narrativeGreet = NarrativeDirector.greetNpc(NpcKind.GHOST);
+		if (narrativeGreet != null) GLog.i(narrativeGreet);
+
 		if (Quest.given) {
 			if (Quest.weapon != null) {
 				if (Quest.processed) {

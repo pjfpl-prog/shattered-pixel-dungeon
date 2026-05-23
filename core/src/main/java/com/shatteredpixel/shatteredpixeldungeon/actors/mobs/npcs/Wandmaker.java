@@ -45,9 +45,12 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.MassGraveRoom
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.RitualSiteRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.quest.RotGardenRoom;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcKind;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Rotberry;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.WandmakerSprite;
+import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndQuest;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndWandmaker;
 import com.watabou.noosa.Game;
@@ -108,8 +111,11 @@ public class Wandmaker extends NPC {
 			return true;
 		}
 
+		String narrativeGreet = NarrativeDirector.greetNpc(NpcKind.WANDMAKER);
+		if (narrativeGreet != null) GLog.i(narrativeGreet);
+
 		if (Quest.given) {
-			
+
 			Item item;
 			switch (Quest.type) {
 				case 1:
