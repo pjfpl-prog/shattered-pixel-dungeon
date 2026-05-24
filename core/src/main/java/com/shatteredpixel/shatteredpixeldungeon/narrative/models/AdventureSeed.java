@@ -64,6 +64,10 @@ public class AdventureSeed implements Bundlable {
 	// Cada EventInstance referencia um id em EventBank + estado (triggered, chosenOption).
 	public HashMap<Integer, ArrayList<EventInstance>> scheduledEvents = new HashMap<>();
 
+	// Bandeiras setadas por eventos. Outros eventos podem listar requiredFlags
+	// pra só dispararem se todas estiverem aqui.
+	public HashSet<String> eventFlags = new HashSet<>();
+
 	// Placeholders para passos futuros.
 	public String finalBossIdentity   = "";
 
@@ -72,6 +76,9 @@ public class AdventureSeed implements Bundlable {
 
 	// Marca se a revelation do boss final já disparou (piso 25).
 	public boolean bossRevealed = false;
+
+	// Marca se o epílogo da run já foi mostrado (piso 26, vitória).
+	public boolean endingShown = false;
 
 	private static final String ADVENTURE_TITLE     = "adventure_title";
 	private static final String DUNGEON_THEME       = "dungeon_theme";
@@ -83,10 +90,12 @@ public class AdventureSeed implements Bundlable {
 	private static final String NPC_STATES          = "npc_states";
 	private static final String ARTIFACT_LORE       = "artifact_lore";
 	private static final String SCHEDULED_EVENTS    = "scheduled_events";
+	private static final String EVENT_FLAGS         = "event_flags";
 	private static final String FINAL_BOSS_IDENTITY = "final_boss_identity";
 	private static final String EMOTIONAL_TONE      = "emotional_tone";
 	private static final String INTRO_SHOWN         = "intro_shown";
 	private static final String BOSS_REVEALED       = "boss_revealed";
+	private static final String ENDING_SHOWN        = "ending_shown";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
@@ -117,10 +126,13 @@ public class AdventureSeed implements Bundlable {
 			eventsBundle.put(String.valueOf(e.getKey()), e.getValue());
 		}
 		bundle.put(SCHEDULED_EVENTS, eventsBundle);
+
+		bundle.put(EVENT_FLAGS, eventFlags.toArray(new String[0]));
 		bundle.put(FINAL_BOSS_IDENTITY, finalBossIdentity);
 		bundle.put(EMOTIONAL_TONE,      emotionalTone);
 		bundle.put(INTRO_SHOWN,         introShown);
 		bundle.put(BOSS_REVEALED,       bossRevealed);
+		bundle.put(ENDING_SHOWN,        endingShown);
 	}
 
 	@Override
@@ -132,6 +144,7 @@ public class AdventureSeed implements Bundlable {
 		emotionalTone     = bundle.getString(EMOTIONAL_TONE);
 		introShown        = bundle.getBoolean(INTRO_SHOWN);
 		bossRevealed      = bundle.getBoolean(BOSS_REVEALED);
+		endingShown       = bundle.getBoolean(ENDING_SHOWN);
 
 		mainQuestChain.clear();
 		if (bundle.contains(MAIN_QUEST_CHAIN)) {
@@ -203,6 +216,12 @@ public class AdventureSeed implements Bundlable {
 					} catch (NumberFormatException ignored) {}
 				}
 			}
+		}
+
+		eventFlags.clear();
+		if (bundle.contains(EVENT_FLAGS)) {
+			String[] arr = bundle.getStringArray(EVENT_FLAGS);
+			if (arr != null) eventFlags.addAll(Arrays.asList(arr));
 		}
 	}
 }

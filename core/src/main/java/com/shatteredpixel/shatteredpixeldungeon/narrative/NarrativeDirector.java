@@ -17,13 +17,16 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative;
 
 import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcKind;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcLines;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventBank;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventInstance;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventScheduleGenerator;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.NarrativeEvent;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.factions.Faction;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.ArtifactLoreGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.BossIdentityGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.DungeonThemeGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.EmotionalToneGenerator;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.EndingGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.FactionsGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.LoreGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.NpcStatesGenerator;
@@ -171,6 +174,33 @@ public final class NarrativeDirector {
 			sb.append("\n_Fragmentos Descobertos_\nNenhum até agora.\n");
 		}
 
+		// Histórico de escolhas — eventos triggered com chosenOption válida.
+		boolean anyChoice = false;
+		for (java.util.Map.Entry<Integer, ArrayList<EventInstance>> e
+				: currentSeed.scheduledEvents.entrySet()) {
+			for (EventInstance inst : e.getValue()) {
+				if (inst.triggered && inst.chosenOption >= 0) { anyChoice = true; break; }
+			}
+			if (anyChoice) break;
+		}
+		if (anyChoice) {
+			sb.append("\n_Suas Escolhas_\n");
+			// Ordena por piso ascendente.
+			ArrayList<Integer> depths = new ArrayList<>(currentSeed.scheduledEvents.keySet());
+			java.util.Collections.sort(depths);
+			for (int d : depths) {
+				for (EventInstance inst : currentSeed.scheduledEvents.get(d)) {
+					if (!inst.triggered || inst.chosenOption < 0) continue;
+					NarrativeEvent ev = EventBank.get(inst.eventId);
+					if (ev == null) continue;
+					if (inst.chosenOption >= ev.options.size()) continue;
+					String chosen = ev.options.get(inst.chosenOption).buttonText;
+					sb.append("- (piso ").append(d).append(") ")
+							.append(ev.title).append(": ").append(chosen).append("\n");
+				}
+			}
+		}
+
 		return sb.toString();
 	}
 
@@ -269,6 +299,18 @@ public final class NarrativeDirector {
 
 	public static void markBossRevealed() {
 		if (currentSeed != null) currentSeed.bossRevealed = true;
+	}
+
+	public static boolean endingShown() {
+		return currentSeed != null && currentSeed.endingShown;
+	}
+
+	public static void markEndingShown() {
+		if (currentSeed != null) currentSeed.endingShown = true;
+	}
+
+	public static String endingText() {
+		return EndingGenerator.generate();
 	}
 
 	private static final String SEED_BUNDLE_KEY = "narrative_seed";

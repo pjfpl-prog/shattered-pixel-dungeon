@@ -14,8 +14,11 @@ public enum EventEffectKind {
 	DAMAGE_PCT,        // intArg = % do HP máximo a dano (positivo, é subtraído)
 	GIVE_GOLD,         // intArg = quantidade
 	GIVE_XP,           // intArg = quantidade
-	GIVE_ITEM,         // stringArg = simple class name de Item (ex. "PotionOfHealing")
+	GIVE_ITEM,         // stringArg = simple class name de Item
 	NPC_ATTITUDE,      // stringArg = NpcKind.name(); intArg = ordinal de Attitude
 	MARK_QUEST_STEP,   // intArg = índice na mainQuestChain
-	ADD_BUFF           // stringArg = simple class name de Buff; intArg = duração (turnos)
+	ADD_BUFF,          // stringArg = simple class name de Buff; intArg = duração (turnos)
+	ADD_LORE,          // stringArg = corpo do fragmento; revelado imediatamente
+	SET_FLAG,          // stringArg = nome da flag (eventFlags do AdventureSeed)
+	HT_BONUS           // intArg = +HT permanente
 }

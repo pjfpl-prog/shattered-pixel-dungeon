@@ -630,6 +630,17 @@ public class GameScene extends PixelScene {
 					NarrativeDirector.markBossRevealed();
 				}
 
+				if (Dungeon.depth == 26 && !NarrativeDirector.endingShown()) {
+					final String epilog = NarrativeDirector.endingText();
+					com.watabou.noosa.Game.runOnRenderThread(new com.watabou.utils.Callback() {
+						@Override
+						public void call() {
+							GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndStory(epilog));
+						}
+					});
+					NarrativeDirector.markEndingShown();
+				}
+
 				queueNextNarrativeEvent();
 				
 				for (Char ch : Actor.chars()){

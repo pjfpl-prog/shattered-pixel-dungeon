@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcKind;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.lore.LoreFragment;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.models.AdventureSeed;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.NpcState;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.NpcState.Attitude;
@@ -66,9 +67,26 @@ public final class EventDirector {
 		List<EventInstance> list = seed.scheduledEvents.get(depth);
 		if (list == null) return null;
 		for (EventInstance inst : list) {
-			if (!inst.triggered) return inst;
+			if (inst.triggered) continue;
+			NarrativeEvent ev = EventBank.get(inst.eventId);
+			if (ev == null) continue;
+			if (!flagsSatisfied(seed, ev)) {
+				// Não pode disparar agora — marca como triggered "skip" pra não bloquear próximo.
+				inst.triggered    = true;
+				inst.chosenOption = -1;
+				continue;
+			}
+			return inst;
 		}
 		return null;
+	}
+
+	private static boolean flagsSatisfied(AdventureSeed seed, NarrativeEvent ev) {
+		if (ev.requiredFlags.length == 0) return true;
+		for (String f : ev.requiredFlags) {
+			if (!seed.eventFlags.contains(f)) return false;
+		}
+		return true;
 	}
 
 	public static void apply(EventInstance instance, int optionIndex) {
@@ -189,6 +207,32 @@ public final class EventDirector {
 					try {
 						Buff.affect(hero, cls, (float) Math.max(1, eff.intArg));
 					} catch (Exception ignored) {}
+				}
+				break;
+			}
+			case ADD_LORE: {
+				AdventureSeed seed = NarrativeDirector.seed();
+				if (seed != null && eff.stringArg != null && !eff.stringArg.isEmpty()) {
+					int d = Dungeon.depth;
+					LoreFragment lf = new LoreFragment(LoreFragment.Kind.NOTE, eff.stringArg, d);
+					lf.discovered = true;
+					seed.loreFragments.add(lf);
+					GLog.i("Você encontra uma nota: \"%s\"", eff.stringArg);
+				}
+				break;
+			}
+			case SET_FLAG: {
+				AdventureSeed seed = NarrativeDirector.seed();
+				if (seed != null && eff.stringArg != null && !eff.stringArg.isEmpty()) {
+					seed.eventFlags.add(eff.stringArg);
+				}
+				break;
+			}
+			case HT_BONUS: {
+				if (hero != null && eff.intArg > 0) {
+					hero.HT += eff.intArg;
+					hero.HP += eff.intArg;
+					GLog.p("+%d PV máximos.", eff.intArg);
 				}
 				break;
 			}

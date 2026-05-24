@@ -37,4 +37,13 @@ public final class EventEffect {
 	public static EventEffect buff(String cls, int duration) {
 		return new EventEffect(EventEffectKind.ADD_BUFF, cls, duration);
 	}
+	public static EventEffect lore(String body) {
+		return new EventEffect(EventEffectKind.ADD_LORE, body, 0);
+	}
+	public static EventEffect flag(String name) {
+		return new EventEffect(EventEffectKind.SET_FLAG, name, 0);
+	}
+	public static EventEffect htBonus(int amount) {
+		return new EventEffect(EventEffectKind.HT_BONUS, "", amount);
+	}
 }
