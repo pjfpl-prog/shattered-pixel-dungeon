@@ -76,13 +76,40 @@ public final class NarrativeDirector {
 		return currentSeed.artifactLore.get(artifactClass.getSimpleName());
 	}
 
-	// Resumo curto para a intro: nomes separados por vírgula.
+	// Resumo curto para a intro: nomes articulados separados por vírgula.
+	// Usa Faction.articledName pra produzir "Os Monges do Véu" / "A Ordem das Cinzas".
 	public static String factionsSummary() {
 		if (currentSeed == null || currentSeed.factions.isEmpty()) return "";
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < currentSeed.factions.size(); i++) {
 			if (i > 0) sb.append(", ");
-			sb.append(currentSeed.factions.get(i).name);
+			sb.append(currentSeed.factions.get(i).articledName(true));
+		}
+		return sb.toString();
+	}
+
+	// Texto multi-linha pra WndStory na intro da run.
+	// Retorna "" se não há aventura ainda.
+	public static String introText() {
+		if (currentSeed == null || currentSeed.adventureTitle.isEmpty()) return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append("_").append(currentSeed.adventureTitle).append("_\n\n");
+		if (!currentSeed.dungeonTheme.isEmpty()) {
+			sb.append("Tema: ").append(currentSeed.dungeonTheme).append("\n");
+		}
+		if (!currentSeed.emotionalTone.isEmpty()) {
+			sb.append("Tom: ").append(currentSeed.emotionalTone).append("\n");
+		}
+		String fac = factionsSummary();
+		if (!fac.isEmpty()) {
+			sb.append("\nFacções desta run: ").append(fac).append(".\n");
+		}
+		String quest = mainQuest();
+		if (!quest.isEmpty()) {
+			sb.append("\nSeu objetivo: ").append(quest).append(".\n");
+		}
+		if (!currentSeed.finalBossIdentity.isEmpty()) {
+			sb.append("\nNo fundo da dungeon espera: _").append(currentSeed.finalBossIdentity).append("_.");
 		}
 		return sb.toString();
 	}

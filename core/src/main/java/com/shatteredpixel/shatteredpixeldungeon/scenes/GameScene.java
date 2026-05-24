@@ -602,29 +602,14 @@ public class GameScene extends PixelScene {
 				Sample.INSTANCE.play(Assets.Sounds.DESCEND);
 
 				if (Dungeon.depth == 1 && !NarrativeDirector.introShown()) {
-					String advTitle = NarrativeDirector.adventureTitle();
-					String theme    = NarrativeDirector.dungeonTheme();
-					String tone     = NarrativeDirector.emotionalTone();
-					String quest    = NarrativeDirector.mainQuest();
-					String boss     = NarrativeDirector.bossIdentity();
-					String factions = NarrativeDirector.factionsSummary();
-					if (advTitle != null && !advTitle.isEmpty()) {
-						GLog.h("Sua aventura: %s", advTitle);
-					}
-					if (theme != null && !theme.isEmpty()) {
-						GLog.i("Tema: %s", theme);
-					}
-					if (tone != null && !tone.isEmpty()) {
-						GLog.i("Tom: %s", tone);
-					}
-					if (factions != null && !factions.isEmpty()) {
-						GLog.i("Facções: %s.", factions);
-					}
-					if (quest != null && !quest.isEmpty()) {
-						GLog.p("Objetivo: %s.", quest);
-					}
-					if (boss != null && !boss.isEmpty()) {
-						GLog.n("No fundo da dungeon espera: %s.", boss);
+					final String intro = NarrativeDirector.introText();
+					if (intro != null && !intro.isEmpty()) {
+						com.watabou.noosa.Game.runOnRenderThread(new com.watabou.utils.Callback() {
+							@Override
+							public void call() {
+								GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndStory(intro));
+							}
+						});
 					}
 					NarrativeDirector.markIntroShown();
 				}
