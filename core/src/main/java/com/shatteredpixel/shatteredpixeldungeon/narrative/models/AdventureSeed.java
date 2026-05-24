@@ -18,6 +18,7 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative.models;
 
 import com.shatteredpixel.shatteredpixeldungeon.narrative.factions.Faction;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.lore.LoreFragment;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.NpcState;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.quests.QuestStep;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
@@ -51,6 +52,9 @@ public class AdventureSeed implements Bundlable {
 	// Facções ativas na aventura. 2-3 por run, sorteadas a partir do tema.
 	public ArrayList<Faction> factions = new ArrayList<>();
 
+	// Estado narrativo de cada NPC. Chave: NpcKind.name() (ex.: "GHOST").
+	public HashMap<String, NpcState> npcStates = new HashMap<>();
+
 	// Descrições procedurais para artefatos do jogo.
 	// Chave: nome simples da classe do Artifact (ex.: "EtherealChains"); valor: texto.
 	public HashMap<String, String> artifactLore = new HashMap<>();
@@ -71,6 +75,7 @@ public class AdventureSeed implements Bundlable {
 	private static final String LORE_FRAGMENTS      = "lore_fragments";
 	private static final String NPC_GREETED         = "npc_greeted";
 	private static final String FACTIONS            = "factions";
+	private static final String NPC_STATES          = "npc_states";
 	private static final String ARTIFACT_LORE       = "artifact_lore";
 	private static final String FINAL_BOSS_IDENTITY = "final_boss_identity";
 	private static final String EMOTIONAL_TONE      = "emotional_tone";
@@ -86,6 +91,14 @@ public class AdventureSeed implements Bundlable {
 		bundle.put(LORE_FRAGMENTS,      loreFragments);
 		bundle.put(NPC_GREETED,         npcGreeted.toArray(new String[0]));
 		bundle.put(FACTIONS,            factions);
+
+		Bundle npcBundle = new Bundle();
+		for (java.util.Map.Entry<String, NpcState> e : npcStates.entrySet()) {
+			Bundle inner = new Bundle();
+			e.getValue().storeInBundle(inner);
+			npcBundle.put(e.getKey(), inner);
+		}
+		bundle.put(NPC_STATES, npcBundle);
 
 		Bundle artBundle = new Bundle();
 		for (java.util.Map.Entry<String, String> e : artifactLore.entrySet()) {
@@ -135,6 +148,21 @@ public class AdventureSeed implements Bundlable {
 			Collection<Bundlable> stored = bundle.getCollection(FACTIONS);
 			for (Bundlable b : stored) {
 				if (b instanceof Faction) factions.add((Faction) b);
+			}
+		}
+
+		npcStates.clear();
+		if (bundle.contains(NPC_STATES)) {
+			Bundle npcBundle = bundle.getBundle(NPC_STATES);
+			if (!npcBundle.isNull()) {
+				for (String key : npcBundle.getKeys()) {
+					Bundle inner = npcBundle.getBundle(key);
+					if (!inner.isNull()) {
+						NpcState st = new NpcState();
+						st.restoreFromBundle(inner);
+						npcStates.put(key, st);
+					}
+				}
 			}
 		}
 

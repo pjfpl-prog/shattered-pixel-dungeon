@@ -24,10 +24,12 @@ import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.DungeonThem
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.EmotionalToneGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.FactionsGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.LoreGenerator;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.NpcStatesGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.QuestChainGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.TitleGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.lore.LoreFragment;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.models.AdventureSeed;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.NpcState;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.quests.QuestStep;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
@@ -125,6 +127,11 @@ public final class NarrativeDirector {
 		return NpcLines.greet(kind);
 	}
 
+	public static NpcState npcState(NpcKind kind) {
+		if (currentSeed == null || kind == null) return null;
+		return currentSeed.npcStates.get(kind.name());
+	}
+
 	// Gera a aventura no início de uma nova run.
 	// Empurra um gerador determinístico a partir da dungeonSeed para que toda
 	// a aventura seja reproduzível por seed e independente do RNG do gameplay.
@@ -139,6 +146,11 @@ public final class NarrativeDirector {
 			currentSeed.dungeonTheme      = DungeonThemeGenerator.generate();
 			currentSeed.finalBossIdentity = BossIdentityGenerator.generate(currentSeed.dungeonTheme);
 			currentSeed.factions          = new ArrayList<>(FactionsGenerator.generate(currentSeed.dungeonTheme));
+			currentSeed.npcStates.clear();
+			for (java.util.Map.Entry<NpcKind, NpcState> e
+					: NpcStatesGenerator.generate(currentSeed.emotionalTone, currentSeed.factions).entrySet()) {
+				currentSeed.npcStates.put(e.getKey().name(), e.getValue());
+			}
 			currentSeed.artifactLore      = new HashMap<>(ArtifactLoreGenerator.generate(currentSeed.dungeonTheme, currentSeed.emotionalTone));
 			currentSeed.adventureTitle    = TitleGenerator.generate();
 			currentSeed.mainQuestChain    = new ArrayList<>(QuestChainGenerator.generate());
