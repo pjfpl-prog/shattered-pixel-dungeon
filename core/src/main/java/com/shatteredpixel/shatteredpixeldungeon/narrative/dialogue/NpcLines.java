@@ -15,6 +15,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue;
 
 import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.factions.Faction;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.NpcState;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.NpcState.Attitude;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.util.PtBr;
@@ -89,20 +90,51 @@ public final class NpcLines {
 
 		if (!affiliation.isEmpty()) {
 			if (sb.length() > 0) sb.append(" ");
+			Faction f = findFaction(affiliation);
+			String articledCap   = f != null ? f.articledName(true)  : "Os " + affiliation;
+			String articledLower = f != null ? f.articledName(false) : "os " + affiliation;
 			switch (attitude) {
 				case FRIENDLY:
-					sb.append("Eu sirvo aos ").append(affiliation).append(", se isso ajuda.");
+					sb.append("Eu sirvo ").append(prefixWithA(articledLower, f))
+							.append(", se isso ajuda.");
 					break;
 				case HOSTILE:
-					sb.append("Não me confunda com os ").append(affiliation).append(" — eles é que mandam aqui.");
+					sb.append("Não me confunda com ")
+							.append(prefixWithCom(articledLower, f))
+							.append(" — são eles que mandam aqui.");
 					break;
 				case WARY:
 				default:
-					sb.append("Os ").append(affiliation).append(" vigiam estas passagens.");
+					sb.append(articledCap).append(" ").append(verbVigiar(f))
+							.append(" estas passagens.");
 					break;
 			}
 		}
 
 		return sb.toString();
+	}
+
+	// Localiza a Faction completa pelo nome (pra ter acesso a gênero/número).
+	private static Faction findFaction(String name) {
+		for (Faction f : NarrativeDirector.factions()) {
+			if (name.equals(f.name)) return f;
+		}
+		return null;
+	}
+
+	// "ao Círculo" / "à Voz Coletiva" / "aos Monges" / "às Cinzas".
+	// Recebe já no formato "<artigo> <nome>" em minúsculo.
+	private static String prefixWithA(String articledLower, Faction f) {
+		if (f == null) return PtBr.contractA(articledLower);
+		return PtBr.contractA(articledLower);
+	}
+
+	// "com os Monges" / "com a Ordem". Sem contração — só prepende.
+	private static String prefixWithCom(String articledLower, Faction f) {
+		return "com " + articledLower;
+	}
+
+	private static String verbVigiar(Faction f) {
+		return (f != null && f.plural) ? "vigiam" : "vigia";
 	}
 }
