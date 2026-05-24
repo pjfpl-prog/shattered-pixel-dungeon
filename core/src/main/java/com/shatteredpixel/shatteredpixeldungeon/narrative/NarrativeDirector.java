@@ -305,11 +305,10 @@ public final class NarrativeDirector {
 		return currentSeed != null && currentSeed.endingShown;
 	}
 
-	// Modo one-shot RPG: substituiria geração padrão de SPD pelos NarrativeChapter*.
-	// DESATIVADO — implementação atual tem bug que coloca o jogador em pisos
-	// negativos imediatamente. Precisa investigar com calma antes de reativar.
+	// Modo one-shot RPG: substitui geração padrão de SPD pelos NarrativeChapter*.
+	// REATIVADO pra diagnóstico isolado (chapters minimalistas só com cor).
 	public static boolean oneShotMode() {
-		return false;
+		return true;
 	}
 
 	public static void markEndingShown() {

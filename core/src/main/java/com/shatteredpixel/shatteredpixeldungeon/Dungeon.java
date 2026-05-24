@@ -301,12 +301,23 @@ public class Dungeon {
 		Dungeon.level = null;
 		Actor.clear();
 		
-		Level level;
-		// Modo one-shot (NarrativeChapter*) está desativado por enquanto — bug
-		// na geração de transitions faz o jogador cair em pisos negativos.
-		// Manter os arquivos em narrative/levels/ pra retomada futura.
-		if (branch == 0) {
+		Level level = null;
+		if (branch == 0 && NarrativeDirector.oneShotMode()) {
 			switch (depth) {
+				case 1:
+					level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter1();
+					break;
+				case 2:
+					level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter2();
+					break;
+				case 3:
+					level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeBossChapter();
+					break;
+			}
+		}
+		if (level == null && branch == 0) {
+			switch (depth) {
+				case 0:
 				case 1:
 				case 2:
 				case 3:
@@ -375,7 +386,8 @@ public class Dungeon {
 				default:
 					level = new DeadEndLevel();
 			}
-		} else {
+		} else if (level == null) {
+			// Sem branch reconhecida nem level já setado por outra fonte (e.g. oneShotMode).
 			level = new DeadEndLevel();
 		}
 

@@ -1,9 +1,5 @@
 /*
- * Projeto Roguelike Narrativo Procedural — one-shot RPG mode
- *
- * Capítulo final (boss): herda SewerBossLevel pra reusar a infra do Goo
- * (boss já presente na sala de boss). Trocamos só visual (tileset/cor)
- * pra parecer um lugar diferente do sewer original.
+ * Projeto Roguelike Narrativo Procedural — boss minimalista pra diagnóstico.
  */
 
 package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
@@ -18,7 +14,6 @@ import com.watabou.utils.Callback;
 public class NarrativeBossChapter extends SewerBossLevel {
 
 	{
-		// Dourado/ocre — sala do antagonista.
 		color1 = 0x6b5318;
 		color2 = 0xc9a13a;
 	}
@@ -27,8 +22,6 @@ public class NarrativeBossChapter extends SewerBossLevel {
 	public void unseal() {
 		boolean wasSealed = locked;
 		super.unseal();
-		// unseal só roda quando o boss morre e a sala destrava. Disparamos
-		// o epílogo da one-shot aqui.
 		if (wasSealed && !NarrativeDirector.endingShown()) {
 			final String epilog = NarrativeDirector.endingText();
 			NarrativeDirector.markEndingShown();
