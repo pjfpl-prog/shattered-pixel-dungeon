@@ -16,6 +16,7 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.narrative.models;
 
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventInstance;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.factions.Faction;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.lore.LoreFragment;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.NpcState;
@@ -59,6 +60,10 @@ public class AdventureSeed implements Bundlable {
 	// Chave: nome simples da classe do Artifact (ex.: "EtherealChains"); valor: texto.
 	public HashMap<String, String> artifactLore = new HashMap<>();
 
+	// Eventos de livro-jogo agendados por piso (1..25).
+	// Cada EventInstance referencia um id em EventBank + estado (triggered, chosenOption).
+	public HashMap<Integer, ArrayList<EventInstance>> scheduledEvents = new HashMap<>();
+
 	// Placeholders para passos futuros.
 	public String finalBossIdentity   = "";
 
@@ -77,6 +82,7 @@ public class AdventureSeed implements Bundlable {
 	private static final String FACTIONS            = "factions";
 	private static final String NPC_STATES          = "npc_states";
 	private static final String ARTIFACT_LORE       = "artifact_lore";
+	private static final String SCHEDULED_EVENTS    = "scheduled_events";
 	private static final String FINAL_BOSS_IDENTITY = "final_boss_identity";
 	private static final String EMOTIONAL_TONE      = "emotional_tone";
 	private static final String INTRO_SHOWN         = "intro_shown";
@@ -105,6 +111,12 @@ public class AdventureSeed implements Bundlable {
 			artBundle.put(e.getKey(), e.getValue());
 		}
 		bundle.put(ARTIFACT_LORE, artBundle);
+
+		Bundle eventsBundle = new Bundle();
+		for (java.util.Map.Entry<Integer, ArrayList<EventInstance>> e : scheduledEvents.entrySet()) {
+			eventsBundle.put(String.valueOf(e.getKey()), e.getValue());
+		}
+		bundle.put(SCHEDULED_EVENTS, eventsBundle);
 		bundle.put(FINAL_BOSS_IDENTITY, finalBossIdentity);
 		bundle.put(EMOTIONAL_TONE,      emotionalTone);
 		bundle.put(INTRO_SHOWN,         introShown);
@@ -172,6 +184,23 @@ public class AdventureSeed implements Bundlable {
 			if (!artBundle.isNull()) {
 				for (String key : artBundle.getKeys()) {
 					artifactLore.put(key, artBundle.getString(key));
+				}
+			}
+		}
+
+		scheduledEvents.clear();
+		if (bundle.contains(SCHEDULED_EVENTS)) {
+			Bundle eventsBundle = bundle.getBundle(SCHEDULED_EVENTS);
+			if (!eventsBundle.isNull()) {
+				for (String key : eventsBundle.getKeys()) {
+					try {
+						int depth = Integer.parseInt(key);
+						ArrayList<EventInstance> list = new ArrayList<>();
+						for (Bundlable b : eventsBundle.getCollection(key)) {
+							if (b instanceof EventInstance) list.add((EventInstance) b);
+						}
+						scheduledEvents.put(depth, list);
+					} catch (NumberFormatException ignored) {}
 				}
 			}
 		}

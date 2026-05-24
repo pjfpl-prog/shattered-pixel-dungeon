@@ -17,6 +17,8 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative;
 
 import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcKind;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.dialogue.NpcLines;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventInstance;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventScheduleGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.factions.Faction;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.ArtifactLoreGenerator;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.generators.BossIdentityGenerator;
@@ -243,6 +245,11 @@ public final class NarrativeDirector {
 				currentSeed.mainQuest = currentSeed.mainQuestChain.get(0).description;
 			}
 			currentSeed.loreFragments     = new ArrayList<>(LoreGenerator.generate());
+			currentSeed.scheduledEvents.clear();
+			for (java.util.Map.Entry<Integer, java.util.List<EventInstance>> e
+					: EventScheduleGenerator.generate(currentSeed.dungeonTheme, currentSeed.emotionalTone).entrySet()) {
+				currentSeed.scheduledEvents.put(e.getKey(), new ArrayList<>(e.getValue()));
+			}
 		} finally {
 			Random.popGenerator();
 		}

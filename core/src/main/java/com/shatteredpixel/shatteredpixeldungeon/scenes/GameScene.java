@@ -75,6 +75,10 @@ import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventBank;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.EventInstance;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.events.NarrativeEvent;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.lore.LoreFragment;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
@@ -625,6 +629,8 @@ public class GameScene extends PixelScene {
 					}
 					NarrativeDirector.markBossRevealed();
 				}
+
+				queueNextNarrativeEvent();
 				
 				for (Char ch : Actor.chars()){
 					if (ch instanceof DriedRose.GhostHero){
@@ -1376,6 +1382,32 @@ public class GameScene extends PixelScene {
 		}
 	}
 	
+	// Dispara o próximo NarrativeEvent agendado pro piso atual (se houver).
+	// Chamado dentro do bloco DESCEND/FALL no create() — também encadeia
+	// próximos eventos após o jogador escolher (livro-jogo flow).
+	public static void queueNextNarrativeEvent() {
+		final EventInstance instance = EventDirector.popNextForDepth(Dungeon.depth);
+		if (instance == null) return;
+		final NarrativeEvent ev = EventBank.get(instance.eventId);
+		if (ev == null) {
+			instance.triggered = true;
+			return;
+		}
+		com.watabou.noosa.Game.runOnRenderThread(new com.watabou.utils.Callback() {
+			@Override
+			public void call() {
+				show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndChoice(ev,
+					new com.shatteredpixel.shatteredpixeldungeon.windows.WndChoice.OnChosen() {
+						@Override
+						public void chosen(int index) {
+							EventDirector.apply(instance, index);
+							queueNextNarrativeEvent();
+						}
+					}));
+			}
+		});
+	}
+
 	public static void show( Window wnd ) {
 		if (scene != null) {
 			cancel();
