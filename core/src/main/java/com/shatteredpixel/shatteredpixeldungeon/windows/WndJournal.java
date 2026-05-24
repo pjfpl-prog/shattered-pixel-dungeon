@@ -54,6 +54,7 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Document;
 import com.shatteredpixel.shatteredpixeldungeon.journal.Notes;
 import com.shatteredpixel.shatteredpixeldungeon.levels.traps.Trap;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
 import com.shatteredpixel.shatteredpixeldungeon.plants.Plant;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
@@ -100,6 +101,7 @@ public class WndJournal extends WndTabbed {
 	private NotesTab notesTab;
 	private CatalogTab catalogTab;
 	private BadgesTab badgesTab;
+	private AdventureTab adventureTab;
 	
 	public static int last_index = 0;
 
@@ -139,7 +141,11 @@ public class WndJournal extends WndTabbed {
 		add(badgesTab);
 		badgesTab.setRect(0, 0, width, height);
 		badgesTab.updateList();
-		
+
+		adventureTab = new AdventureTab();
+		add(adventureTab);
+		adventureTab.setRect(0, 0, width, height);
+
 		Tab[] tabs = {
 				new IconTab( Icons.JOURNAL.get() ) {
 					protected void select( boolean value ) {
@@ -199,6 +205,21 @@ public class WndJournal extends WndTabbed {
 					@Override
 					protected String hoverText() {
 						return Messages.get(badgesTab, "title");
+					}
+				},
+				new IconTab( Icons.SCROLL_COLOR.get() ) {
+					protected void select( boolean value ) {
+						super.select( value );
+						adventureTab.active = adventureTab.visible = value;
+						if (value) {
+							last_index = 5;
+							adventureTab.refresh();
+						}
+					}
+
+					@Override
+					protected String hoverText() {
+						return "Aventura";
 					}
 				}
 		};
@@ -1152,5 +1173,43 @@ public class WndJournal extends WndTabbed {
 		}
 
 	}
-	
+
+	public static class AdventureTab extends Component {
+
+		private ScrollPane scroll;
+		private RenderedTextBlock text;
+		private Component contents;
+
+		@Override
+		protected void createChildren() {
+			contents = new Component();
+			scroll   = new ScrollPane(contents);
+			add(scroll);
+
+			text = PixelScene.renderTextBlock(6);
+			contents.add(text);
+		}
+
+		@Override
+		protected void layout() {
+			super.layout();
+			scroll.setRect(x, y, width, height);
+			rebuildText();
+		}
+
+		public void refresh() {
+			rebuildText();
+		}
+
+		private void rebuildText() {
+			if (text == null || contents == null) return;
+			int margin = 2;
+			int innerWidth = (int) (width - margin * 2);
+			text.text(NarrativeDirector.journalText(), innerWidth);
+			text.setPos(margin, margin);
+			contents.setSize(width, text.bottom() + margin);
+			scroll.scrollTo(0, 0);
+		}
+	}
+
 }

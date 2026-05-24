@@ -114,6 +114,64 @@ public final class NarrativeDirector {
 		return sb.toString();
 	}
 
+	// Texto extenso pra página "Aventura" no Journal: tudo que a intro mostra
+	// + role das facções + cadeia completa de quests + lore já descoberto.
+	public static String journalText() {
+		if (currentSeed == null || currentSeed.adventureTitle.isEmpty()) {
+			return "Sua aventura ainda não foi gerada.";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("_").append(currentSeed.adventureTitle).append("_\n");
+		if (!currentSeed.dungeonTheme.isEmpty()) {
+			sb.append("Tema: ").append(currentSeed.dungeonTheme).append("\n");
+		}
+		if (!currentSeed.emotionalTone.isEmpty()) {
+			sb.append("Tom: ").append(currentSeed.emotionalTone).append("\n");
+		}
+		if (!currentSeed.finalBossIdentity.isEmpty()) {
+			sb.append("Adversário final: _").append(currentSeed.finalBossIdentity).append("_\n");
+		}
+
+		if (!currentSeed.factions.isEmpty()) {
+			sb.append("\n_Facções_\n");
+			for (com.shatteredpixel.shatteredpixeldungeon.narrative.factions.Faction f : currentSeed.factions) {
+				sb.append("- ").append(f.articledName(true));
+				if (f.role != null && !f.role.isEmpty()) {
+					sb.append(" — ").append(f.role);
+				}
+				sb.append("\n");
+			}
+		}
+
+		if (!currentSeed.mainQuestChain.isEmpty()) {
+			sb.append("\n_Cadeia da Aventura_\n");
+			int i = 1;
+			for (QuestStep s : currentSeed.mainQuestChain) {
+				sb.append(i++).append(". ");
+				if (s.completed) sb.append("~");
+				sb.append(s.description).append(s.completed ? "~" : "").append("\n");
+			}
+		}
+
+		boolean anyDiscovered = false;
+		for (LoreFragment f : currentSeed.loreFragments) {
+			if (f.discovered) { anyDiscovered = true; break; }
+		}
+		if (anyDiscovered) {
+			sb.append("\n_Fragmentos Descobertos_\n");
+			for (LoreFragment f : currentSeed.loreFragments) {
+				if (f.discovered) {
+					sb.append("- (piso ").append(f.triggerDepth).append(") ")
+							.append(f.formatted()).append("\n");
+				}
+			}
+		} else if (!currentSeed.loreFragments.isEmpty()) {
+			sb.append("\n_Fragmentos Descobertos_\nNenhum até agora.\n");
+		}
+
+		return sb.toString();
+	}
+
 	public static String mainQuest() {
 		if (currentSeed == null) return "";
 		if (!currentSeed.mainQuest.isEmpty()) return currentSeed.mainQuest;
