@@ -302,6 +302,9 @@ public class Dungeon {
 		Actor.clear();
 		
 		Level level;
+		// Modo one-shot (NarrativeChapter*) está desativado por enquanto — bug
+		// na geração de transitions faz o jogador cair em pisos negativos.
+		// Manter os arquivos em narrative/levels/ pra retomada futura.
 		if (branch == 0) {
 			switch (depth) {
 				case 1:
