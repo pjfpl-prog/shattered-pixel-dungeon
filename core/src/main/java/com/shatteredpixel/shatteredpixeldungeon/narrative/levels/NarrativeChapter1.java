@@ -1,12 +1,13 @@
 /*
  * Projeto Roguelike Narrativo Procedural — one-shot RPG mode
  *
- * Capítulo 1 minimalista pra diagnóstico — APENAS cor diferente.
- * Se este nem rodar, o bug está fora do nosso código.
+ * Capítulo 1: visual vermelho-sangue + cobras extras como encontros-chave.
  */
 
 package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
 
 public class NarrativeChapter1 extends SewerLevel {
@@ -14,5 +15,12 @@ public class NarrativeChapter1 extends SewerLevel {
 	{
 		color1 = 0x7c2a2a;
 		color2 = 0xb84141;
+	}
+
+	@Override
+	protected void createMobs() {
+		super.createMobs();
+		NarrativeSpawns.spawnExtra(this, new Snake());
+		NarrativeSpawns.spawnExtra(this, new Snake());
 	}
 }
