@@ -12,7 +12,12 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Goo;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage;
+import com.watabou.noosa.Game;
+import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.Callback;
 
 public class NarrativeBoss extends Goo {
 
@@ -29,8 +34,27 @@ public class NarrativeBoss extends Goo {
 		super.notice();
 		if (!greeted) {
 			greeted = true;
-			yell(entranceLine());
+			final String line = entranceLine();
+			final String title = name();
+			final String portraitPath = pickPortraitPath();
+			Game.runOnRenderThread(new Callback() {
+				@Override public void call() {
+					Image p = null;
+					try { p = new Image(portraitPath); } catch (Exception ignored) {}
+					GameScene.show(new WndTitledMessage(p, title, line));
+				}
+			});
 		}
+	}
+
+	// Escolhe o retrato com base na identidade da run.
+	// Heurística simples: identidade contém "Profeta" → profeta-mudo; senão → rei-cinza.
+	private String pickPortraitPath() {
+		String id = NarrativeDirector.bossIdentity();
+		if (id != null && id.toLowerCase().contains("profeta")) {
+			return "narrative/boss-profeta-mudo_portrait.png";
+		}
+		return "narrative/boss-rei-cinza_portrait.png";
 	}
 
 	@Override

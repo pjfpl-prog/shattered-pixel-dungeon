@@ -33,6 +33,34 @@ URL = "https://api.openai.com/v1/images/generations"
 HEAD = {"Authorization": f"Bearer {KEY}", "Content-Type": "application/json"}
 
 JOBS = {
+    "ghost": (
+        "16-bit pixel art portrait of a translucent ghost adventurer for a dark fantasy "
+        "roguelike. A pale fading warrior, half-transparent, eyes lowered with regret, "
+        "wearing the ghost of leather armor. Hair like smoke. Faint cyan-white inner glow. "
+        "Background plain charcoal gray #222222. Centered headshot, clear silhouette, "
+        "limited palette pixel art, no text, no letters, no border."
+    ),
+    "wandmaker": (
+        "16-bit pixel art portrait of an elderly hooded wandmaker for a dark fantasy "
+        "roguelike. A wrinkled cunning face peering out of a hood, holding a small carved "
+        "wand close to the chest. Robes in earth-brown and forest-green with bone and "
+        "feather charms. Eyes sharp, suspicious, wise. Background plain charcoal gray "
+        "#222222. Centered headshot, limited palette pixel art, no text, no letters."
+    ),
+    "blacksmith": (
+        "16-bit pixel art portrait of a dwarven blacksmith for a dark fantasy roguelike. "
+        "Massive bearded figure with arms folded, leather apron scorched by fire, soot "
+        "on the cheeks, one eye slightly larger from a forge accident. Hammer slung over "
+        "the shoulder. Background plain charcoal gray #222222. Centered headshot, limited "
+        "palette pixel art, no text, no letters."
+    ),
+    "imp": (
+        "16-bit pixel art portrait of a mischievous trickster imp for a dark fantasy "
+        "roguelike. A small grinning humanoid with crimson skin, golden eyes, pointy "
+        "ears, a tiny pair of horns, holding a coin between two fingers. Mocking smile "
+        "with sharp teeth. Background plain charcoal gray #222222. Centered headshot, "
+        "limited palette pixel art, no text, no letters."
+    ),
     "oraculo": (
         "16-bit pixel art sprite of a 'Silent Oracle' character for a dark fantasy "
         "roguelike dungeon game. A hooded figure with no visible face, only two glowing "

@@ -138,8 +138,17 @@ public class Ghost extends NPC {
 			return super.interact(c);
 		}
 
-		String narrativeGreet = NarrativeDirector.greetNpc(NpcKind.GHOST);
-		if (narrativeGreet != null) GLog.i(narrativeGreet);
+		final String narrativeGreet = NarrativeDirector.greetNpc(NpcKind.GHOST);
+		if (narrativeGreet != null) {
+			Game.runOnRenderThread(new Callback() {
+				@Override public void call() {
+					com.watabou.noosa.Image p = null;
+					try { p = new com.watabou.noosa.Image("narrative/ghost_portrait.png"); } catch (Exception ignored) {}
+					GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage(
+						p, name(), narrativeGreet));
+				}
+			});
+		}
 
 		if (Quest.given) {
 			if (Quest.weapon != null) {

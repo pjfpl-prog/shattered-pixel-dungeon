@@ -112,8 +112,17 @@ public class Imp extends NPC {
 			return true;
 		}
 
-		String narrativeGreet = NarrativeDirector.greetNpc(NpcKind.IMP);
-		if (narrativeGreet != null) GLog.i(narrativeGreet);
+		final String narrativeGreet = NarrativeDirector.greetNpc(NpcKind.IMP);
+		if (narrativeGreet != null) {
+			Game.runOnRenderThread(new Callback() {
+				@Override public void call() {
+					com.watabou.noosa.Image p = null;
+					try { p = new com.watabou.noosa.Image("narrative/imp_portrait.png"); } catch (Exception ignored) {}
+					GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage(
+						p, name(), narrativeGreet));
+				}
+			});
+		}
 
 		if (Quest.given) {
 
