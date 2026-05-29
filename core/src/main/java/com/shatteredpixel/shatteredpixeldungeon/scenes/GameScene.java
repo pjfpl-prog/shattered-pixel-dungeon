@@ -614,9 +614,7 @@ public class GameScene extends PixelScene {
 							@Override
 							public void call() {
 								com.watabou.noosa.Image portrait = null;
-								String path = (boss != null && boss.toLowerCase().contains("profeta"))
-									? "narrative/boss-profeta-mudo_portrait.png"
-									: "narrative/boss-rei-cinza_portrait.png";
+								String path = com.shatteredpixel.shatteredpixeldungeon.narrative.util.BossPortraits.pathFor(boss);
 								try { portrait = new com.watabou.noosa.Image(path); } catch (Exception ignored) {}
 								String wndTitle = (title != null && !title.isEmpty()) ? title : "A aventura";
 								if (portrait != null) {

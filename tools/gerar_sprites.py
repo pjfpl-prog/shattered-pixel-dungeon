@@ -86,6 +86,44 @@ JOBS = {
         "#222222. Centered, clear silhouette, pixel art limited palette, no text, no "
         "letters, no border."
     ),
+    "boss-coveiro-antigo": (
+        "16-bit pixel art portrait of 'The Old Gravedigger', a boss for a dark fantasy "
+        "roguelike. Ancient bony figure leaning on a tall iron shovel, eyes sunken and "
+        "glowing dim white, dirty long beard tangled with roots and small bones, dressed "
+        "in soil-stained patched robes the color of grave dirt and rust. Background plain "
+        "charcoal gray #222222. Centered headshot, limited palette pixel art, no text, no "
+        "letters."
+    ),
+    "boss-mente-raiz": (
+        "16-bit pixel art portrait of 'The Root Mind', dark fantasy roguelike boss. A "
+        "humanoid shape almost entirely made of pale fungal roots and tendrils wrapped "
+        "around what used to be a body, no visible face, just a faint glowing core "
+        "pulsing soft blue-green light at the chest. Background plain charcoal gray "
+        "#222222. Centered, limited palette pixel art, no text, no letters."
+    ),
+    "boss-santo-oco": (
+        "16-bit pixel art portrait of 'The Hollow Saint', dark fantasy roguelike boss. "
+        "A figure in pristine white-and-gold ecclesiastic robes with a tall mitre, but "
+        "the face beneath the cowl is a void of darkness with two thin slits of cold "
+        "white light. Holds a censer that emits black smoke. Background plain charcoal "
+        "gray #222222. Centered headshot, limited palette pixel art, no text, no letters."
+    ),
+    "boss-sacerdote-insone": (
+        "16-bit pixel art portrait of 'The Sleepless Priest', dark fantasy roguelike "
+        "boss. Gaunt face, bloodshot wide-open eyes that haven't slept in years, dark "
+        "circles, sweat on the brow. Wearing tattered ceremonial robes in deep purple "
+        "and tarnished bronze. Holding a small bell with shaking hand. Background plain "
+        "charcoal gray #222222. Centered headshot, limited palette pixel art, no text, "
+        "no letters."
+    ),
+    "boss-mae-das-moscas": (
+        "16-bit pixel art portrait of 'The Mother of Flies', dark fantasy roguelike "
+        "boss. A bloated figure of a once-beautiful woman now covered in writhing "
+        "black flies, eyes replaced by compound-eye orbs, dressed in ragged plague-doctor "
+        "robes in olive-green and rusty orange. Flies orbit the head. Background plain "
+        "charcoal gray #222222. Centered headshot, limited palette pixel art, no text, "
+        "no letters."
+    ),
 }
 
 

@@ -47,14 +47,9 @@ public class NarrativeBoss extends Goo {
 		}
 	}
 
-	// Escolhe o retrato com base na identidade da run.
-	// Heurística simples: identidade contém "Profeta" → profeta-mudo; senão → rei-cinza.
 	private String pickPortraitPath() {
-		String id = NarrativeDirector.bossIdentity();
-		if (id != null && id.toLowerCase().contains("profeta")) {
-			return "narrative/boss-profeta-mudo_portrait.png";
-		}
-		return "narrative/boss-rei-cinza_portrait.png";
+		return com.shatteredpixel.shatteredpixeldungeon.narrative.util.BossPortraits
+				.pathFor(NarrativeDirector.bossIdentity());
 	}
 
 	@Override
