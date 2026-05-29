@@ -1529,6 +1529,370 @@ public final class EventBank {
 				"Você a guarda. Ela esquenta de leve no bolso, viva, paciente, esperando o momento em que você vai precisar mesmo do que ela diz.",
 				EventEffect.item("ScrollOfIdentify"))
 		));
+
+		// ============================================================
+		// BLOCO 4 — Reino Caído, Santuário Afogado, Profecia,
+		//           e os pecados de Ganância e Esperança
+		// ============================================================
+
+		// === Cadeia 9: O Trono Vazio ===
+		register(new NarrativeEvent(
+			"trono_encontro",
+			"O Trono Vazio",
+			"Um salão real soterrado pelo tempo. No fim, um trono intacto, vazio, com uma coroa pousada no assento como se o rei tivesse se levantado faz um minuto. Uma voz sem corpo: \"Enfim, alguém com coragem de subir os degraus. Sente-se. O reino precisa de alguém.\"",
+			3, 9, new String[]{"Reino Caído"}, new String[]{"mistério", "decadência"},
+			new EventOption("Sentar-se no trono.",
+				"Você senta. Por um instante o salão se reconstrói ao seu redor, vivo, cheio, em festa — depois desmorona de novo. Mas a coroa, essa, te reconheceu.",
+				EventEffect.flag("sentei_no_trono"), EventEffect.xp(150), EventEffect.htBonus(5)),
+			new EventOption("Pegar só a coroa.",
+				"Você ergue a coroa. É pesada de um jeito que não é só metal. A voz silencia, ofendida. \"Ladrão de reino, então. Anotado.\"",
+				EventEffect.flag("peguei_a_coroa"), EventEffect.gold(120)),
+			new EventOption("Ajoelhar-se diante do trono vazio.",
+				"Você se ajoelha a um rei que não existe. A voz se comove. \"Faz tanto tempo que alguém respeita o lugar, não quem o ocupa.\" Algo se abre pra você.",
+				EventEffect.flag("respeitei_o_trono"), EventEffect.buff("Bless", 100))
+		));
+
+		register(new NarrativeEvent(
+			"trono_corte",
+			"A Corte de Pó",
+			"Cortesãos de poeira se erguem ao seu redor, curvando-se. \"Majestade.\" Eles esperam ordens com a paciência de séculos. Um deles sussurra: \"O tesouro real ainda está selado. Só a coroa abre. Só o rei decide.\"",
+			10, 16, new String[]{}, new String[]{},
+			new String[]{"sentei_no_trono"},
+			new EventOption("Ordenar que descansem, libertando a corte.",
+				"\"Dispensados. Para sempre.\" Eles se curvam uma última vez, gratos, e voltam a ser pó — pó que não mais se levanta. O salão exala alívio.",
+				EventEffect.xp(240), EventEffect.markQuestStep(2), EventEffect.flag("libertei_a_corte")),
+			new EventOption("Mandar abrirem o tesouro real.",
+				"Os cortesãos de pó arrastam-se até um cofre antigo e o abrem. Ouro de um reino inteiro. Eles esperam, agora, que você fique. Reis não vão embora.",
+				EventEffect.gold(220), EventEffect.flag("abri_o_tesouro"), EventEffect.damage(10)),
+			new EventOption("Perguntar como o reino caiu.",
+				"O cortesão mais velho conta: \"O rei desceu atrás de algo lá embaixo e nunca voltou. Esperamos. Ainda esperamos. O senhor... voltou?\"",
+				EventEffect.xp(180), EventEffect.flag("soube_da_queda"),
+				EventEffect.lore("O reino caiu quando o rei desceu atrás de algo no fundo e nunca mais subiu."))
+		));
+
+		register(new NarrativeEvent(
+			"trono_peso",
+			"O Peso da Coroa",
+			"A coroa em sua cabeça começa a pesar de verdade — não metal, mas decisões. Vozes de súditos mortos pedem coisas opostas ao mesmo tempo. \"Pão.\" \"Vingança.\" \"Que o rei desça e termine o que começou.\"",
+			15, 21, new String[]{}, new String[]{"decadência", "tragédia"},
+			new String[]{"sentei_no_trono"},
+			new EventOption("Carregar o peso e governar com justiça.",
+				"Você ouve a todos, decide o impossível, e a coroa para de doer — porque enfim alguém a usa pra servir, não pra ter. Os mortos sossegam.",
+				EventEffect.htBonus(14), EventEffect.buff("Bless", 120), EventEffect.flag("governei_com_justica")),
+			new EventOption("Tirar a coroa e largá-la no chão.",
+				"Você a tira. O alívio é instantâneo e covarde. As vozes calam — abandonadas de novo. Você desce mais leve, e algo em você sabe o preço disso.",
+				EventEffect.heal(30), EventEffect.flag("abdiquei")),
+			new EventOption("Mandar os mortos calarem a boca.",
+				"\"SILÊNCIO!\" Funciona. Eles obedecem, aterrorizados. Você reina sobre o medo agora. É eficiente. É solitário. A coroa esfria na sua testa.",
+				EventEffect.xp(200), EventEffect.flag("reinei_pelo_medo"))
+		));
+
+		register(new NarrativeEvent(
+			"trono_verdade",
+			"O Rei Que Desceu",
+			"No fundo do reino, você encontra um esqueleto coroado, igual à coroa que você carrega, agarrado a uma porta que dá pro abismo do boss final. Ele desceu pra enfrentar o que destruiu seu reino — e morreu na soleira. \"Você... veio terminar?\"",
+			20, 24, new String[]{"Reino Caído"}, new String[]{},
+			new String[]{"soube_da_queda"},
+			new EventOption("Jurar terminar o que ele começou.",
+				"Você ajoelha ao lado do rei morto e faz o juramento. O esqueleto solta a porta, enfim. A coroa em você arde como propósito, não como peso.",
+				EventEffect.htBonus(16), EventEffect.flag("jurei_terminar"), EventEffect.markQuestStep(4)),
+			new EventOption("Tirar a coroa e colocá-la no crânio dele.",
+				"Você devolve a coroa ao rei verdadeiro. O esqueleto suspira poeira. \"Obrigado por não querer meu lugar.\" Você desce como você mesmo, e isso pesa menos.",
+				EventEffect.xp(300), EventEffect.heal(40), EventEffect.flag("devolvi_a_coroa"))
+		));
+
+		register(new NarrativeEvent(
+			"trono_ladrao_pago",
+			"A Conta do Ladrão",
+			"Os cortesãos de pó te alcançam, mas sem reverência agora — você roubou a coroa, nunca foi rei. \"Devolva o que é do reino, gatuno, ou carregue a maldição de toda corte que você desprezou.\"",
+			14, 22, new String[]{}, new String[]{"ganância"},
+			new String[]{"peguei_a_coroa"},
+			new EventOption("Devolver a coroa.",
+				"Você a entrega. O pó suspira e se acalma. \"Sábio. Reino roubado afunda com quem rouba.\" Você sai sem ouro, mas sem peso nas costas.",
+				EventEffect.xp(200), EventEffect.flag("devolvi_coroa_roubada")),
+			new EventOption("Fugir com a coroa mesmo assim.",
+				"Você corre. A corte de pó não te segue — não precisa. A coroa fica mais pesada a cada degrau, lembrando que ela escolhe o rei, e não escolheu você.",
+				EventEffect.gold(180), EventEffect.damage(20), EventEffect.flag("fugi_com_a_coroa")),
+			new EventOption("Vender a coroa ali mesmo, ao maior morto.",
+				"Um cortesão ganancioso compra de você por um tesouro. Negócio fechado entre dois ladrões. Vocês se entendem. Nenhum dos dois dorme bem.",
+				EventEffect.gold(150), EventEffect.npc(NpcKind.IMP.name(), Attitude.FRIENDLY.ordinal()))
+		));
+
+		// === Avulsos: Santuário Afogado ===
+
+		register(new NarrativeEvent(
+			"o_deus_submerso",
+			"O Deus Submerso",
+			"Uma câmara inundada até o peito. No fundo da água escura, vasto, algo enorme abre um olho do tamanho de uma porta e te observa subir bolhas. Não é hostil. É só faminto de atenção, depois de eras sem fiéis.",
+			12, 21, new String[]{"Santuário Afogado"}, new String[]{"horror", "mistério"},
+			new EventOption("Fazer uma prece improvisada.",
+				"Você reza palavras inventadas. O olho enorme se enche d'água — um deus pode chorar. Em troca da fé, a água ao seu redor te embala como bênção.",
+				EventEffect.buff("Bless", 120), EventEffect.heal(35), EventEffect.flag("rezei_ao_submerso")),
+			new EventOption("Mergulhar pra tocar o olho.",
+				"Você prende o ar e desce. Toca a pálpebra colossal. Por um segundo sabe tudo o que o deus sabe — e quase não volta à tona com a cabeça inteira.",
+				EventEffect.item("PotionOfMindVision"), EventEffect.damage(18), EventEffect.flag("toquei_o_deus")),
+			new EventOption("Drenar a câmara.",
+				"Você acha a comporta e abre. A água escoa por horas. O deus encalha, imenso e patético, secando ao ar. O olho te acusa até o fim. Você ganha passagem e culpa.",
+				EventEffect.xp(220), EventEffect.htBonus(8), EventEffect.flag("drenei_o_deus"))
+		));
+
+		register(new NarrativeEvent(
+			"os_que_nao_boiam",
+			"Os Que Não Bóiam",
+			"Sob a água rasa de um corredor alagado, pessoas em pé, de olhos abertos, respirando líquido. Afundaram por escolha. Um deles ergue a mão pra fora: \"Desça com a gente. Aqui embaixo não dói lembrar.\"",
+			10, 19, new String[]{"Santuário Afogado"}, new String[]{"tragédia", "decadência"},
+			new EventOption("Recusar e seguir pela superfície.",
+				"\"Cada um afunda na sua hora\", a voz borbulha, sem rancor. Você caminha sobre eles, cuidando pra não pisar em rosto nenhum.",
+				EventEffect.xp(150), EventEffect.flag("recusei_afundar")),
+			new EventOption("Puxar um deles pra fora.",
+				"Você iça o que estendeu a mão. Ele tosse água por minutos, depois te encara com pavor: \"Por quê? Agora vou ter que sentir tudo de novo.\" Mas vai viver.",
+				EventEffect.heal(20), EventEffect.npc(NpcKind.GHOST.name(), Attitude.WARY.ordinal()), EventEffect.flag("salvei_um_afogado")),
+			new EventOption("Submergir um momento, só pra entender.",
+				"Você mergulha entre eles. Por alguns segundos, de fato, não dói lembrar de nada. É tentador. É por isso que você sobe rápido, antes de querer ficar.",
+				EventEffect.heal(40), EventEffect.damage(15), EventEffect.flag("provei_o_fundo"))
+		));
+
+		register(new NarrativeEvent(
+			"o_sino_afogado",
+			"O Sino Afogado",
+			"No fundo de um poço inundado, um grande sino badala sozinho, abafado pela água, chamando fiéis que se afogaram há séculos. A corda sobe até a superfície, ao seu alcance.",
+			11, 20, new String[]{"Santuário Afogado"}, new String[]{},
+			new EventOption("Puxar a corda pra fazê-lo soar.",
+				"O som sobe deformado pela água, lindo e errado. Algo no fundo responde, grato por ser chamado. Você ganha a sensação de ter completado um rito antigo.",
+				EventEffect.xp(180), EventEffect.markQuestStep(3), EventEffect.flag("toquei_o_sino_afogado")),
+			new EventOption("Cortar a corda.",
+				"Você corta. O sino para de badalar pela primeira vez em séculos. O silêncio sob a água é vasto e, de algum modo, é um luto.",
+				EventEffect.htBonus(8), EventEffect.damage(8)),
+			new EventOption("Descer pela corda até o sino.",
+				"Você desce ao fundo. Dentro do sino, em vez de badalo, um sacerdote afogado segura a língua de metal com as duas mãos. Ele te oferece. Você decide se aceita o cargo.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.damage(15), EventEffect.flag("entrei_no_sino"))
+		));
+
+		// === Avulsos: Profecia, esperança, ganância, e diversos ===
+
+		register(new NarrativeEvent(
+			"a_pagina_arrancada",
+			"A Página Arrancada",
+			"Os Hereges da Última Página queimaram a profecia inteira, menos um pedaço que sobrou preso a uma estaca. Nele, meia frase: \"...e o que descer por último irá...\" — o resto é fogo.",
+			9, 18, new String[]{"Profecia Interrompida"}, new String[]{"mistério"},
+			new EventOption("Completar a frase você mesmo.",
+				"Você escreve um fim para a profecia: \"...irá escolher.\" A tinta pega como se sempre tivesse estado lá. Você acaba de editar o destino. Pequeno. Mas seu.",
+				EventEffect.htBonus(10), EventEffect.flag("editei_a_profecia"), EventEffect.xp(160)),
+			new EventOption("Procurar as cinzas do resto.",
+				"Você vasculha as cinzas e remonta cacos de frase: o fim profetizado é terrível, ou glorioso, dependendo de quem desce por último. Pode ser você.",
+				EventEffect.item("ScrollOfIdentify"), EventEffect.flag("li_as_cinzas")),
+			new EventOption("Queimar também o que sobrou.",
+				"Você termina o trabalho dos hereges. A última sílaba da profecia vira fumaça. Agora não há destino escrito — só o que você fizer. Liberta. Apavora.",
+				EventEffect.xp(200), EventEffect.flag("queimei_a_profecia"))
+		));
+
+		register(new NarrativeEvent(
+			"o_cofre_que_pede_nome",
+			"O Cofre Que Pede um Nome",
+			"Um cofre maciço de ouro, sem fechadura, só uma placa: \"Diga o nome de quem você ama mais e eu abro. Minto se você mentir.\" Por baixo, marcas de unhas de quem tentou forçar e falhou.",
+			8, 17, new String[]{}, new String[]{"ganância"},
+			new EventOption("Dizer o nome verdadeiro.",
+				"Você fala, e a palavra te custa mais do que esperava. O cofre se abre. Lá dentro, ouro — e um pequeno espelho, pra você ver quem pôs antes do dinheiro.",
+				EventEffect.gold(160), EventEffect.heal(20), EventEffect.flag("disse_o_nome_amado")),
+			new EventOption("Dizer o próprio nome.",
+				"\"Eu.\" O cofre considera por um longo tempo. Depois abre, devagar, meio decepcionado, meio impressionado. O ouro tem gosto de solidão honesta.",
+				EventEffect.gold(120), EventEffect.flag("amo_a_mim_mesmo")),
+			new EventOption("Tentar arrombar.",
+				"Você força com tudo. O cofre range: \"Mentiu sobre amar dinheiro mais que gente.\" Ele despeja moedas falsas que viram pó nas suas mãos.",
+				EventEffect.damage(15), EventEffect.npc(NpcKind.IMP.name(), Attitude.HOSTILE.ordinal()))
+		));
+
+		register(new NarrativeEvent(
+			"a_balanca_dourada",
+			"A Balança Dourada",
+			"Uma balança de ouro num pedestal. De um lado, um prato vazio. Acima: \"Coloque o que mais valoriza. Receba o peso em ouro. Sem trapaça.\"",
+			10, 19, new String[]{}, new String[]{"ganância", "mistério"},
+			new EventOption("Pôr uma lembrança preciosa no prato.",
+				"Você deposita, de algum modo, uma lembrança que ama. A balança a pesa — e ela pesa muito. Sai ouro a rodo. E você perde um pouco da cor da lembrança.",
+				EventEffect.gold(200), EventEffect.damage(10), EventEffect.flag("vendi_uma_lembranca")),
+			new EventOption("Pôr a própria mão no prato.",
+				"Você arrisca a carne. A balança pesa sua coragem, não a mão, e te devolve intacto, com ouro e um respeito incômodo de uma máquina antiga.",
+				EventEffect.gold(120), EventEffect.heal(15)),
+			new EventOption("Pôr nada e exigir ouro.",
+				"\"Ganância sem oferta\", a balança troveja, \"é a única coisa que não vale nada.\" O prato vazio fica vazio. Você sai como entrou. Quase.",
+				EventEffect.xp(140))
+		));
+
+		register(new NarrativeEvent(
+			"o_mendigo_coroado",
+			"O Mendigo de Coroa",
+			"Um mendigo esfarrapado usa uma coroa de papelão dourado com dignidade absurda. \"Fui rei de tudo isto, antes de tudo isto cair. Hoje só me resta a coroa e a graça de não a tirar. Senta, divide o pão?\"",
+			6, 15, new String[]{"Reino Caído"}, new String[]{"esperança", "tragédia"},
+			new EventOption("Sentar e dividir o que tem.",
+				"Vocês comem migalhas como num banquete. Ele conta do reino com tanto amor que por uma hora ele existe de novo. Você sai mais rico do que entrou.",
+				EventEffect.heal(40), EventEffect.buff("Bless", 100), EventEffect.flag("comi_com_o_rei_mendigo")),
+			new EventOption("Dar todo o seu ouro a ele.",
+				"Você esvazia a bolsa na mão dele. Ele chora. \"Um súdito. Enfim, um súdito.\" A gratidão dele vale mais do que o ouro valia.",
+				EventEffect.gold(-100), EventEffect.htBonus(10), EventEffect.flag("financiei_o_rei")),
+			new EventOption("Tomar a coroa de papelão como piada.",
+				"Você arranca o papelão dourado. Sem a coroa, o mendigo encolhe, vira só um velho qualquer, e algo se apaga nele. Você guarda um troféu inútil e cruel.",
+				EventEffect.damage(8), EventEffect.npc(NpcKind.GHOST.name(), Attitude.HOSTILE.ordinal()))
+		));
+
+		register(new NarrativeEvent(
+			"a_semente_na_pedra",
+			"A Semente na Pedra",
+			"No lugar mais morto da masmorra, uma única semente brotou numa fresta, com uma folhinha verde teimosa virada pra uma luz que não existe ali. É a coisa mais viva que você viu em andares.",
+			5, 14, new String[]{}, new String[]{"esperança"},
+			new EventOption("Regar com sua água.",
+				"Você sacrifica um gole do cantil. A folhinha estremece, agradecida. Você não vai ver essa planta crescer — mas plantou alguma coisa em si ao fazer isso.",
+				EventEffect.heal(35), EventEffect.buff("Bless", 80), EventEffect.flag("reguei_a_semente")),
+			new EventOption("Arrancar pra usar como remédio.",
+				"Você colhe o broto. Vira pó verde útil — cura ferida. Mas o canto fica morto de novo, e você carrega a pergunta de se valia a pena.",
+				EventEffect.item("PotionOfHealing"), EventEffect.damage(5)),
+			new EventOption("Só ficar olhando um pouco.",
+				"Você não faz nada. Só observa a teimosia verde por um minuto. É um descanso que nenhum item te daria. Você desce mais leve.",
+				EventEffect.heal(25), EventEffect.xp(60))
+		));
+
+		register(new NarrativeEvent(
+			"a_lampada_do_naufrago",
+			"A Lâmpada do Náufrago",
+			"Pendurada num gancho enferrujado, uma lâmpada ainda acesa, dessas que se deixavam na janela esperando alguém voltar do mar. Quem a acendeu morreu esperando. A chama nunca soube e não apagou.",
+			7, 16, new String[]{}, new String[]{"esperança", "tragédia"},
+			new EventOption("Manter a chama acesa, reabastecendo.",
+				"Você cuida da chama, completa o óleo. Ela arde mais firme. Você não sabe quem ela espera — mas decide que a espera de alguém merece continuar.",
+				EventEffect.buff("Bless", 100), EventEffect.flag("cuidei_da_chama")),
+			new EventOption("Levar a lâmpada como guia.",
+				"Você a descola do gancho. Ela ilumina seu caminho com uma luz morna que não é de fogo comum — é de quem espera. Por andares, você não se sente sozinho.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.flag("levei_a_lampada")),
+			new EventOption("Apagar a chama, encerrando a espera.",
+				"Você sopra. A luz morre. Em algum lugar, talvez, um morto que esperava enfim para de esperar. Misericórdia ou crueldade — só o escuro responde.",
+				EventEffect.xp(160), EventEffect.htBonus(6), EventEffect.flag("apaguei_a_lampada"))
+		));
+
+		register(new NarrativeEvent(
+			"o_motor_que_implora",
+			"O Motor Que Implora",
+			"Uma máquina antiga, do tamanho de uma sala, com uma boca de bronze. \"Combustível\", ela range em voz quase humana. \"Não sangue. Cansei de sangue. Me dê uma boa razão pra continuar girando e eu giro.\"",
+			13, 22, new String[]{"Despertar de Máquina Antiga"}, new String[]{"mistério"},
+			new EventOption("Dar uma razão sincera pra ela girar.",
+				"Você fala com a máquina como com um velho cansado. Diz algo verdadeiro sobre por que se continua. Os pistões hesitam — e voltam, mais firmes. Ela te abençoa em vapor morno.",
+				EventEffect.buff("Recharging", 120), EventEffect.xp(200), EventEffect.flag("convenci_o_motor")),
+			new EventOption("Alimentá-la com seu próprio sangue.",
+				"Você ignora o pedido e oferece o de sempre. A máquina aceita, decepcionada com você e consigo. Gira poderosa de novo, mas sem alegria. Você se sente um pouco menos gente.",
+				EventEffect.damage(20), EventEffect.htBonus(10), EventEffect.flag("alimentei_a_maquina")),
+			new EventOption("Desligá-la, deixá-la descansar.",
+				"Você acha a alavanca e a puxa. A máquina suspira em ferro e silencia. \"Obrigada\", é a última palavra. Você desce ouvindo, pela primeira vez, o seu próprio silêncio.",
+				EventEffect.xp(220), EventEffect.markQuestStep(1), EventEffect.flag("desliguei_o_motor"))
+		));
+
+		register(new NarrativeEvent(
+			"o_cartografo_cego",
+			"O Cartógrafo Cego",
+			"Um velho de olhos brancos desenha mapas pelo tato, passando os dedos pelas paredes e traçando linhas perfeitas num pergaminho. \"Vejo melhor sem ver. Quer um mapa? Custa só que você me descreva uma cor. Faz tanto tempo.\"",
+			7, 16, new String[]{"Expedição Esquecida"}, new String[]{"esperança", "mistério"},
+			new EventOption("Descrever uma cor pra ele.",
+				"Você descreve o azul de um céu que ele nunca verá de novo. Ele para de desenhar, ouve com o corpo todo, chora, e te entrega o mapa mais preciso da sua vida.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.heal(20), EventEffect.flag("descrevi_uma_cor")),
+			new EventOption("Pedir o mapa do caminho mais perigoso.",
+				"\"Curioso.\" Ele traça uma rota que ninguém são pediria. Leva a tesouro e a quase-morte na mesma linha. Você decide se é corajoso ou ganancioso.",
+				EventEffect.gold(150), EventEffect.damage(15), EventEffect.flag("rota_perigosa")),
+			new EventOption("Roubar o pergaminho dele.",
+				"Você toma o mapa das mãos cegas. Ele não persegue — não pode. Só diz, baixinho: \"Vai te levar a lugar nenhum. Mapa roubado perde o norte.\" E perde mesmo.",
+				EventEffect.damage(10), EventEffect.npc(NpcKind.WANDMAKER.name(), Attitude.HOSTILE.ordinal()))
+		));
+
+		register(new NarrativeEvent(
+			"o_imp_usurario",
+			"O Imp Usurário",
+			"Um Imp de óculos minúsculos e um livro-razão imenso. \"Crédito! Eu empresto vida agora, você paga com juros depois. Assine aqui. Letra pequena? Ah, a letra pequena é onde eu moro.\"",
+			12, 21, new String[]{}, new String[]{"ganância"},
+			new EventOption("Pegar o empréstimo de vida.",
+				"Você assina sem ler. Energia te invade, deliciosa. O Imp sorri e fecha o livro. \"Volto pra cobrar. Sempre volto.\" A dívida tiquetaqueia em você.",
+				EventEffect.heal(50), EventEffect.htBonus(8), EventEffect.flag("devo_ao_imp")),
+			new EventOption("Ler a letra pequena primeiro.",
+				"Você lê tudo, linha por linha minúscula. O Imp fica visivelmente desconfortável. No fim, você acha a cláusula que o ferra — e a usa pra negociar a seu favor.",
+				EventEffect.gold(140), EventEffect.npc(NpcKind.IMP.name(), Attitude.WARY.ordinal()), EventEffect.flag("li_a_letra_pequena")),
+			new EventOption("Rasgar o livro-razão.",
+				"Você rasga o calhamaço inteiro. Mil dívidas de mil aventureiros se anulam de uma vez. Eles, onde quer que estejam, te devem uma. O Imp jura vingança contábil.",
+				EventEffect.xp(220), EventEffect.npc(NpcKind.IMP.name(), Attitude.HOSTILE.ordinal()), EventEffect.flag("rasguei_o_razao"))
+		));
+
+		register(new NarrativeEvent(
+			"a_estatua_que_chora_ouro",
+			"A Estátua Que Chora Ouro",
+			"Uma estátua de um santo esquecido chora, e as lágrimas são moedas de ouro que tilintam no chão. Uma fila de tigelas embaixo coleta o pranto. Há mais que você consegue carregar.",
+			9, 18, new String[]{}, new String[]{"ganância", "mistério"},
+			new EventOption("Encher os bolsos e ir.",
+				"Você junta o ouro do choro. É muito. Mas, ao sair, jura que a estátua chorou mais forte — e que cada moeda no seu bolso ainda está molhada de tristeza alheia.",
+				EventEffect.gold(200), EventEffect.flag("peguei_o_ouro_do_choro")),
+			new EventOption("Enxugar o rosto da estátua.",
+				"Você sobe e seca as lágrimas de pedra com a manga. A estátua para de chorar. Os olhos, secos, te olham com um alívio de séculos. Você deixa o ouro pra trás. Vale.",
+				EventEffect.xp(200), EventEffect.buff("Bless", 100), EventEffect.flag("consolei_a_estatua")),
+			new EventOption("Pegar só uma moeda, por respeito.",
+				"Você pega uma só, faz uma vênia e segue. A estátua chora um pouco menos. A moeda no seu bolso fica morna, não molhada. Suficiente é uma palavra que pesa diferente aqui.",
+				EventEffect.gold(40), EventEffect.heal(15))
+		));
+
+		register(new NarrativeEvent(
+			"o_jardineiro_dos_ossos",
+			"O Jardineiro dos Ossos",
+			"Num pátio interno, um velho rega canteiros onde, no lugar de flores, crescem ossos lisos e brancos como caules. Ele os trata com ternura de avô. \"Planto os que ninguém enterrou. Aqui eles viram jardim, não lixo. Ajuda a molhar?\"",
+			8, 17, new String[]{}, new String[]{"esperança", "decadência"},
+			new EventOption("Ajudar a regar o jardim de ossos.",
+				"Vocês cuidam juntos. Sob seus cuidados, um osso floresce de verdade — uma flor branca impossível. O velho chora. Você leva o cheiro dela por andares.",
+				EventEffect.heal(35), EventEffect.buff("Bless", 80), EventEffect.flag("reguei_os_ossos")),
+			new EventOption("Pedir um osso-flor de presente.",
+				"Ele escolhe um com cuidado e te dá. \"Esse aqui era de alguém gentil, dá pra sentir.\" Você guarda. Pesa como responsabilidade e conforta como companhia.",
+				EventEffect.item("ScrollOfIdentify"), EventEffect.xp(120)),
+			new EventOption("Arrancar os ossos pra vender.",
+				"Você colhe a braçada. O velho não grita — apenas para, devastado, e murmura: \"Eram gente.\" O ouro que você ganha tem peso de cova violada.",
+				EventEffect.gold(150), EventEffect.damage(12), EventEffect.npc(NpcKind.GHOST.name(), Attitude.HOSTILE.ordinal()))
+		));
+
+		register(new NarrativeEvent(
+			"a_ultima_vela_da_capela",
+			"A Última Vela da Capela",
+			"Uma capela em ruínas com uma única vela acesa no altar, protegida do vento por mãos invisíveis. Sobre ela, gravado: \"Enquanto arder, há esperança. Já apagou mil vezes. Mil vezes alguém a reacendeu.\"",
+			15, 24, new String[]{}, new String[]{"esperança"},
+			new EventOption("Acrescentar sua chama, reforçando a vela.",
+				"Você acende um toco seu na mesma vela. A luz dobra, firme. Você se torna mais um dos mil que se recusaram a deixar o escuro vencer. É um clube bom de pertencer.",
+				EventEffect.htBonus(10), EventEffect.buff("Bless", 120), EventEffect.flag("reforcei_a_esperanca")),
+			new EventOption("Levar a chama pra acender outra no fundo.",
+				"Você transporta o fogo com cuidado obsceno, mão em concha, e acende uma vela morta lá adiante. Agora são duas. A esperança se multiplica quando se divide.",
+				EventEffect.xp(180), EventEffect.heal(25), EventEffect.markQuestStep(0)),
+			new EventOption("Apagar pra ver o que acontece.",
+				"Você sopra. O escuro engole a capela. Nada de terrível acontece — e isso é o terrível. Você reacende rápido, com a mão tremendo, agora entendendo por que mil tentaram antes.",
+				EventEffect.damage(10), EventEffect.xp(120))
+		));
+
+		register(new NarrativeEvent(
+			"o_espelho_do_perdao",
+			"O Espelho do Perdão",
+			"Um espelho embaçado. Conforme você se aproxima, ele não mostra você — mostra alguém que você magoou, esperando, paciente, como se a qualquer momento você fosse dizer algo.",
+			11, 20, new String[]{}, new String[]{"tragédia", "esperança"},
+			new EventOption("Pedir perdão à imagem.",
+				"Você fala com a pessoa no espelho como nunca conseguiu falar pessoalmente. A imagem ouve. Acena devagar. O embaçado limpa, e enfim é só você ali — mais inteiro.",
+				EventEffect.heal(50), EventEffect.buff("Bless", 100), EventEffect.flag("pedi_perdao")),
+			new EventOption("Encarar sem dizer nada.",
+				"Você sustenta o olhar da pessoa que magoou, em silêncio, até doer. Não é perdão. Mas é coragem. A imagem some respeitando a sua honestidade de não fingir arrependimento que não sente.",
+				EventEffect.htBonus(8), EventEffect.xp(140)),
+			new EventOption("Cobrir o espelho com um pano.",
+				"Você não está pronto. Cobre o vidro. Tudo bem. Algumas contas a gente paga noutro andar da vida. O pano fica, gentil, guardando a imagem pra quando você puder.",
+				EventEffect.text(), EventEffect.flag("adiei_o_perdao"))
+		));
+
+		register(new NarrativeEvent(
+			"o_guardiao_que_duvida",
+			"O Guardião Que Duvida",
+			"Uma armadura imensa bloqueia a passagem, lança cruzada. Mas a voz dentro dela é trêmula, jovem. \"Mandaram eu guardar isto aqui pra sempre. Faz tanto tempo. Eu nem sei mais se ainda tem alguém pra quem guardar. Você... sabe de algo lá fora?\"",
+			10, 19, new String[]{}, new String[]{"tragédia", "esperança"},
+			new EventOption("Dizer que pode ir embora, que cumpriu o dever.",
+				"\"Posso? Mesmo?\" A armadura range, descrente, depois solta a lança. De dentro sai poeira e alívio. Ele te deixa passar e, enfim, se aposenta. Você sente que libertou um soldado, não venceu um.",
+				EventEffect.xp(200), EventEffect.heal(20), EventEffect.flag("libertei_o_guardiao")),
+			new EventOption("Mentir uma ordem de dispensa em nome do rei.",
+				"Você forja autoridade. \"O rei te libera.\" Ele acredita, grato demais pra duvidar. Funciona — mas a mentira gentil fica na sua boca com gosto estranho.",
+				EventEffect.flag("menti_ao_guardiao"), EventEffect.xp(140)),
+			new EventOption("Forçar passagem à força.",
+				"Você o enfrenta. Ele luta por dever, não por ódio, e isso torna tudo pior. Ao cair, sussurra \"obrigado\" — descansar era tudo o que queria. Você passa pesado.",
+				EventEffect.damage(20), EventEffect.gold(100), EventEffect.htBonus(6))
+		));
 	}
 
 	private static void register(NarrativeEvent e) {
