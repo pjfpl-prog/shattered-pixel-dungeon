@@ -626,6 +626,24 @@ public class GameScene extends PixelScene {
 						});
 					}
 					NarrativeDirector.markIntroShown();
+
+					// Welcome ambiente que ressoa o tom emocional da run.
+					String tone = NarrativeDirector.emotionalTone();
+					if (tone != null && !tone.isEmpty()) {
+						String ambient;
+						switch (tone.toLowerCase()) {
+							case "horror":     ambient = "Algo aqui te assiste. Você não vai vê-lo até tarde demais."; break;
+							case "mistério":   ambient = "Há perguntas no ar. Algumas já foram respondidas — mal."; break;
+							case "tragédia":   ambient = "Você sente pena, mas ainda não sabe de quê."; break;
+							case "ganância":   ambient = "Cada moeda brilha mais do que devia. Cada uma cobra."; break;
+							case "loucura":    ambient = "Você ouve sua própria voz, longe, dizendo coisas que ainda não pensou."; break;
+							case "esperança":  ambient = "Há uma chance — pequena, mas é o que basta."; break;
+							case "decadência": ambient = "Tudo aqui está acabando, em câmera lenta."; break;
+							case "paranoia":   ambient = "Não confie no que vir primeiro. Nem no segundo."; break;
+							default:            ambient = "";
+						}
+						if (!ambient.isEmpty()) GLog.h(ambient);
+					}
 				}
 
 				for (LoreFragment lf : NarrativeDirector.revealForDepth(Dungeon.depth)) {

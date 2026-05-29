@@ -83,6 +83,10 @@ public class AdventureSeed implements Bundlable {
 	// Hint de boss no penúltimo piso já mostrado.
 	public boolean bossHintShown = false;
 
+	// Contadores de progresso da run — exibidos na aba Aventura do journal.
+	public int choicesMade      = 0;
+	public int riddlesAnswered  = 0;
+
 	private static final String ADVENTURE_TITLE     = "adventure_title";
 	private static final String DUNGEON_THEME       = "dungeon_theme";
 	private static final String MAIN_QUEST          = "main_quest";
@@ -100,6 +104,8 @@ public class AdventureSeed implements Bundlable {
 	private static final String BOSS_REVEALED       = "boss_revealed";
 	private static final String ENDING_SHOWN        = "ending_shown";
 	private static final String BOSS_HINT_SHOWN     = "boss_hint_shown";
+	private static final String CHOICES_MADE        = "choices_made";
+	private static final String RIDDLES_ANSWERED    = "riddles_answered";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
@@ -138,6 +144,8 @@ public class AdventureSeed implements Bundlable {
 		bundle.put(BOSS_REVEALED,       bossRevealed);
 		bundle.put(ENDING_SHOWN,        endingShown);
 		bundle.put(BOSS_HINT_SHOWN,     bossHintShown);
+		bundle.put(CHOICES_MADE,        choicesMade);
+		bundle.put(RIDDLES_ANSWERED,    riddlesAnswered);
 	}
 
 	@Override
@@ -151,6 +159,8 @@ public class AdventureSeed implements Bundlable {
 		bossRevealed      = bundle.getBoolean(BOSS_REVEALED);
 		endingShown       = bundle.getBoolean(ENDING_SHOWN);
 		bossHintShown     = bundle.getBoolean(BOSS_HINT_SHOWN);
+		choicesMade       = bundle.getInt(CHOICES_MADE);
+		riddlesAnswered   = bundle.getInt(RIDDLES_ANSWERED);
 
 		mainQuestChain.clear();
 		if (bundle.contains(MAIN_QUEST_CHAIN)) {

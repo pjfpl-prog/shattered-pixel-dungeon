@@ -127,6 +127,9 @@ public final class NarrativeDirector {
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("_").append(currentSeed.adventureTitle).append("_\n");
+		sb.append("Escolhas feitas: ").append(currentSeed.choicesMade)
+		  .append("    Enigmas respondidos: ").append(currentSeed.riddlesAnswered)
+		  .append("\n");
 		if (!currentSeed.dungeonTheme.isEmpty()) {
 			sb.append("Tema: ").append(currentSeed.dungeonTheme).append("\n");
 		}

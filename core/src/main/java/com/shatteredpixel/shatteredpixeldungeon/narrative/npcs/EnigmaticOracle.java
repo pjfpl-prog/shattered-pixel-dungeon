@@ -103,6 +103,9 @@ public class EnigmaticOracle extends NPC {
 		answered = true;
 		final Hero hero = Dungeon.hero;
 		final boolean correct = chosen == r.correct;
+		com.shatteredpixel.shatteredpixeldungeon.narrative.models.AdventureSeed seed
+			= com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector.seed();
+		if (seed != null) seed.riddlesAnswered++;
 		final String resultText;
 		if (correct) {
 			resultText = "O Oráculo assente devagar. \"Você sabia. Aceite o que segue.\"";

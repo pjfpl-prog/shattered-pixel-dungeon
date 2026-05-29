@@ -106,6 +106,9 @@ public final class EventDirector {
 		instance.triggered    = true;
 		instance.chosenOption = optionIndex;
 
+		AdventureSeed seed = NarrativeDirector.seed();
+		if (seed != null) seed.choicesMade++;
+
 		EventOption chosen = event.options.get(optionIndex);
 		applyEffects(chosen.effects);
 
