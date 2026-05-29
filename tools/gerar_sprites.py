@@ -124,6 +124,24 @@ JOBS = {
         "charcoal gray #222222. Centered headshot, limited palette pixel art, no text, "
         "no letters."
     ),
+    "boss-tecelao-ossos": (
+        "16-bit pixel art portrait of 'The Bone Weaver', dark fantasy roguelike boss "
+        "for a necromancer civil war scenario. A tall slender figure with arms ending "
+        "in long bony spider-leg fingers, hood pulled forward but face covered by a "
+        "porcelain mask carved as a smiling skull. Robes in deep crimson and ash gray "
+        "with threads of muscle and tendon woven into the fabric. Holds a needle "
+        "threaded with sinew. Background plain charcoal gray #222222. Centered headshot, "
+        "limited palette pixel art, no text, no letters."
+    ),
+    "boss-sonhador-acordado": (
+        "16-bit pixel art portrait of 'The Awakened Dreamer', dark fantasy roguelike "
+        "boss. A child-like figure with adult-too-old face, eyes wide open with no "
+        "irises just pinpoint pupils, wrapped in tangled gray blankets that look like "
+        "they grew from the skin. Faint dream-fog haloing the head with vague shapes "
+        "(faces, hands) drifting in and out. Pale blue-violet palette. Background plain "
+        "charcoal gray #222222. Centered headshot, limited palette pixel art, no text, "
+        "no letters."
+    ),
 }
 
 
