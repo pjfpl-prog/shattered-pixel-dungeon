@@ -466,4 +466,16 @@ public class SPDSettings extends GameSettings {
 	public static int fulLScreenMonitor(){
 		return getInt( KEY_FULLSCREEN_MONITOR, 0 );
 	}
+
+	// === Modo One-Shot Narrativo ===
+	// 0 = clássico (26 níveis SPD); 5/15/20 = one-shot narrativo com esse tamanho.
+	public static final String KEY_ONESHOT_LENGTH = "narrative_oneshot_length";
+
+	public static void oneShotLength( int value ) {
+		put( KEY_ONESHOT_LENGTH, value );
+	}
+
+	public static int oneShotLength() {
+		return getInt( KEY_ONESHOT_LENGTH, 0 );
+	}
 }

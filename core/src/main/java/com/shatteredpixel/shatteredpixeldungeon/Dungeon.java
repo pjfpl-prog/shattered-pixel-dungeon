@@ -303,16 +303,31 @@ public class Dungeon {
 		
 		Level level = null;
 		if (branch == 0 && NarrativeDirector.oneShotMode()) {
-			switch (depth) {
-				case 1:
-					level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter1();
-					break;
-				case 2:
-					level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter2();
-					break;
-				case 3:
+			int total = NarrativeDirector.oneShotLength();
+			if (depth >= 1 && depth <= total) {
+				if (depth == total) {
 					level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeBossChapter();
-					break;
+				} else {
+					// Cicla pelos 5 Chapters temáticos pra cobrir até 20 pisos.
+					int idx = ((depth - 1) % 5) + 1;
+					switch (idx) {
+						case 1:
+							level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter1();
+							break;
+						case 2:
+							level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter2();
+							break;
+						case 3:
+							level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter3();
+							break;
+						case 4:
+							level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter4();
+							break;
+						case 5:
+							level = new com.shatteredpixel.shatteredpixeldungeon.narrative.levels.NarrativeChapter5();
+							break;
+					}
+				}
 			}
 		}
 		if (level == null && branch == 0) {

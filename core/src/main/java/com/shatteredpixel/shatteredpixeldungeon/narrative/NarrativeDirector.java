@@ -305,10 +305,18 @@ public final class NarrativeDirector {
 		return currentSeed != null && currentSeed.endingShown;
 	}
 
-	// Modo one-shot RPG: substitui geração padrão de SPD pelos NarrativeChapter*.
-	// REATIVADO pra diagnóstico isolado (chapters minimalistas só com cor).
+	// Modo one-shot RPG: ativo quando o jogador escolheu um tamanho (5/15/20)
+	// no menu inicial. Length 0 = aventura clássica do SPD.
 	public static boolean oneShotMode() {
-		return true;
+		return com.shatteredpixel.shatteredpixeldungeon.SPDSettings.oneShotLength() > 0;
+	}
+
+	public static int oneShotLength() {
+		return com.shatteredpixel.shatteredpixeldungeon.SPDSettings.oneShotLength();
+	}
+
+	public static boolean isBossDepth(int depth) {
+		return oneShotMode() && depth == oneShotLength();
 	}
 
 	public static void markEndingShown() {
