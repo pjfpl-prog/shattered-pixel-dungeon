@@ -607,11 +607,23 @@ public class GameScene extends PixelScene {
 
 				if (Dungeon.depth == 1 && !NarrativeDirector.introShown()) {
 					final String intro = NarrativeDirector.introText();
+					final String title = NarrativeDirector.adventureTitle();
+					final String boss  = NarrativeDirector.bossIdentity();
 					if (intro != null && !intro.isEmpty()) {
 						com.watabou.noosa.Game.runOnRenderThread(new com.watabou.utils.Callback() {
 							@Override
 							public void call() {
-								GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndStory(intro));
+								com.watabou.noosa.Image portrait = null;
+								String path = (boss != null && boss.toLowerCase().contains("profeta"))
+									? "narrative/boss-profeta-mudo_portrait.png"
+									: "narrative/boss-rei-cinza_portrait.png";
+								try { portrait = new com.watabou.noosa.Image(path); } catch (Exception ignored) {}
+								String wndTitle = (title != null && !title.isEmpty()) ? title : "A aventura";
+								if (portrait != null) {
+									GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndStory(portrait, wndTitle, intro));
+								} else {
+									GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndStory(intro));
+								}
 							}
 						});
 					}
