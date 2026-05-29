@@ -2,9 +2,8 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Gnoll;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
 
-public class NarrativeChapter5 extends SewerLevel {
+public class NarrativeChapter5 extends NarrativeChapter {
 
 	{
 		// Roxo-magenta sobrenatural.

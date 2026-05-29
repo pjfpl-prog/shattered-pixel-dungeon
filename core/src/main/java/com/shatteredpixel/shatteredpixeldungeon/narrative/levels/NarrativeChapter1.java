@@ -6,11 +6,9 @@
 
 package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
 
-public class NarrativeChapter1 extends SewerLevel {
+public class NarrativeChapter1 extends NarrativeChapter {
 
 	{
 		color1 = 0x7c2a2a;

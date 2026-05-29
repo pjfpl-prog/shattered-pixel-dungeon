@@ -3,9 +3,8 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Gnoll;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Swarm;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
 
-public class NarrativeChapter3 extends SewerLevel {
+public class NarrativeChapter3 extends NarrativeChapter {
 
 	{
 		// Verde-musgo apodrecido.

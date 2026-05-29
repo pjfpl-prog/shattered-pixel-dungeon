@@ -9,9 +9,8 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Gnoll;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Snake;
-import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
 
-public class NarrativeChapter2 extends SewerLevel {
+public class NarrativeChapter2 extends NarrativeChapter {
 
 	{
 		color1 = 0x3a2d52;
