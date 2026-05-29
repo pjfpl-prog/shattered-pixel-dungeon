@@ -86,7 +86,32 @@ public class StartScene extends PixelScene {
 		add(title);
 		
 		ArrayList<GamesInProgress.Info> games = GamesInProgress.checkAll();
-		
+
+		// Botão "Nova Aventura (escolher tipo)" — sempre visível, abaixo do título.
+		// Abre o menu de tipo de aventura usando o primeiro slot vazio.
+		float slotLeft = insets.left + (w - SLOT_WIDTH) / 2f;
+		StyledButton btnNewType = new StyledButton(Chrome.Type.GREY_BUTTON_TR,
+				"Nova Aventura (escolher tipo)", 6) {
+			@Override
+			protected void onClick() {
+				super.onClick();
+				int empty = GamesInProgress.firstEmpty();
+				if (empty == -1) {
+					ShatteredPixelDungeon.scene().add(new WndMessage(
+						"Todos os slots têm aventuras em curso. Abandone uma primeiro pra começar nova."));
+					return;
+				}
+				GamesInProgress.selectedClass = null;
+				GamesInProgress.curSlot = empty;
+				ShatteredPixelDungeon.scene().add(
+					new com.shatteredpixel.shatteredpixeldungeon.windows.WndAdventureType());
+			}
+		};
+		btnNewType.textColor(0xFFCC66);
+		btnNewType.setRect(slotLeft, title.bottom() + 4, SLOT_WIDTH, 16);
+		align(btnNewType);
+		add(btnNewType);
+
 		int slotCount = Math.min(GamesInProgress.MAX_SLOTS, games.size()+1);
 		int slotGap = 10 - slotCount;
 		int slotsHeight = slotCount*SLOT_HEIGHT + (slotCount-1)* slotGap;
@@ -98,8 +123,7 @@ public class StartScene extends PixelScene {
 		}
 		
 		float yPos = insets.top + (h - slotsHeight + title.bottom() + 2)/2f - 4;
-		yPos = Math.max(yPos, title.bottom()+2);
-		float slotLeft = insets.left + (w - SLOT_WIDTH) / 2f;
+		yPos = Math.max(yPos, btnNewType.bottom()+4);
 		
 		for (GamesInProgress.Info game : games) {
 			SaveSlotButton existingGame = new SaveSlotButton();
@@ -119,33 +143,6 @@ public class StartScene extends PixelScene {
 			align(newGame);
 			add(newGame);
 		}
-
-		// Botão "Nova Aventura" — abre sempre o menu de tipo de aventura,
-		// usando primeiro slot vazio. Necessário porque o menu de tipo
-		// só aparece em slot vazio; quando todos têm save, usuário
-		// não tinha como mudar de tipo sem abandonar manualmente.
-		StyledButton btnNewType = new StyledButton(Chrome.Type.GREY_BUTTON_TR,
-				"Nova Aventura (escolher tipo)", 6) {
-			@Override
-			protected void onClick() {
-				super.onClick();
-				int empty = GamesInProgress.firstEmpty();
-				if (empty == -1) {
-					ShatteredPixelDungeon.scene().add(new WndMessage(
-						"Todos os slots têm aventuras em curso. Abandone uma primeiro pra começar nova."));
-					return;
-				}
-				GamesInProgress.selectedClass = null;
-				GamesInProgress.curSlot = empty;
-				ShatteredPixelDungeon.scene().add(
-					new com.shatteredpixel.shatteredpixeldungeon.windows.WndAdventureType());
-			}
-		};
-		btnNewType.textColor(0xFFCC66);
-		btnNewType.setRect(slotLeft, yPos, SLOT_WIDTH, 14);
-		yPos += 14 + slotGap;
-		align(btnNewType);
-		add(btnNewType);
 
 		GamesInProgress.curSlot = 0;
 
