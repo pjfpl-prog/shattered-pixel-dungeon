@@ -38,6 +38,7 @@ import com.shatteredpixel.shatteredpixeldungeon.ui.StyledButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
 import com.shatteredpixel.shatteredpixeldungeon.windows.IconTitle;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndGameInProgress;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndMessage;
 import com.watabou.noosa.BitmapText;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
@@ -118,7 +119,34 @@ public class StartScene extends PixelScene {
 			align(newGame);
 			add(newGame);
 		}
-		
+
+		// Botão "Nova Aventura" — abre sempre o menu de tipo de aventura,
+		// usando primeiro slot vazio. Necessário porque o menu de tipo
+		// só aparece em slot vazio; quando todos têm save, usuário
+		// não tinha como mudar de tipo sem abandonar manualmente.
+		StyledButton btnNewType = new StyledButton(Chrome.Type.GREY_BUTTON_TR,
+				"Nova Aventura (escolher tipo)", 6) {
+			@Override
+			protected void onClick() {
+				super.onClick();
+				int empty = GamesInProgress.firstEmpty();
+				if (empty == -1) {
+					ShatteredPixelDungeon.scene().add(new WndMessage(
+						"Todos os slots têm aventuras em curso. Abandone uma primeiro pra começar nova."));
+					return;
+				}
+				GamesInProgress.selectedClass = null;
+				GamesInProgress.curSlot = empty;
+				ShatteredPixelDungeon.scene().add(
+					new com.shatteredpixel.shatteredpixeldungeon.windows.WndAdventureType());
+			}
+		};
+		btnNewType.textColor(0xFFCC66);
+		btnNewType.setRect(slotLeft, yPos, SLOT_WIDTH, 14);
+		yPos += 14 + slotGap;
+		align(btnNewType);
+		add(btnNewType);
+
 		GamesInProgress.curSlot = 0;
 
 		String sortText = "";
