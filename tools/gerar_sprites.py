@@ -133,6 +133,16 @@ JOBS = {
         "threaded with sinew. Background plain charcoal gray #222222. Centered headshot, "
         "limited palette pixel art, no text, no letters."
     ),
+    "bena_stamp": (
+        "The handwritten text \"Bena's adventure in\" rendered as a cartoonish "
+        "rubber-stamp imprint pressed onto transparent background. Typewriter / "
+        "old-typewriter ink font, letters slightly uneven in size and tilted at "
+        "small random angles, baseline wobbling like a hand-press stamp. Color: "
+        "vivid blood-red (#cc1f1f), with imperfect ink coverage — rough edges, "
+        "missing ink patches, slight smudges. No other elements, no other text, "
+        "no decorations, completely transparent background (alpha=0 outside the "
+        "letters). Centered composition, wide aspect ratio."
+    ),
     "boss-sonhador-acordado": (
         "16-bit pixel art portrait of 'The Awakened Dreamer', dark fantasy roguelike "
         "boss. A child-like figure with adult-too-old face, eyes wide open with no "

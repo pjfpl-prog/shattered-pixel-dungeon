@@ -114,6 +114,18 @@ public class TitleScene extends PixelScene {
 
 		align(title);
 
+		// Carimbo "Bena's adventure in" — acima do título, ligeiramente torto.
+		try {
+			Image benaStamp = new Image("narrative/bena_stamp.png");
+			float scale = Math.min(1f, (title.width() * 0.9f) / benaStamp.width);
+			benaStamp.scale.set(scale, scale);
+			benaStamp.x = title.x + (title.width() - benaStamp.width() * scale) / 2f;
+			benaStamp.y = title.y - benaStamp.height() * scale + 4;
+			benaStamp.angle = -6f;
+			align(benaStamp);
+			add(benaStamp);
+		} catch (Exception ignored) {}
+
 		if (landscape()){
 			leftFB = placeTorch(title.x + 30, title.y + 35);
 			rightFB = placeTorch(title.x + title.width - 30, title.y + 35);
