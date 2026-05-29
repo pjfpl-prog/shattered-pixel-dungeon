@@ -1018,6 +1018,268 @@ public final class EventBank {
 				"Você o coloca sobre um corpo no chão. O morto suspira e some. O sudário some junto, satisfeito com a troca.",
 				EventEffect.heal(30), EventEffect.markQuestStep(2))
 		));
+
+		// ============================================================
+		// BLOCO 2 — A Praga, o Sacerdote Insone e a Decadência
+		// ============================================================
+
+		// === Cadeia 7: O Sacerdote Insone ===
+		register(new NarrativeEvent(
+			"sacerdote_encontro",
+			"O Sacerdote Que Não Dorme",
+			"Um homem de hábito esfarrapado se belisca, se corta, se queima — qualquer coisa pra não fechar os olhos. \"Se eu dormir, o sonho acaba de descer. Já estou acordado há onze anos. Me ajuda a aguentar mais uma noite?\"",
+			4, 10, new String[]{"Dungeon da Praga", "Ritual de Invocação"}, new String[]{"horror", "decadência"},
+			new EventOption("Velar com ele esta noite.",
+				"Vocês conversam até o amanhecer que nunca vem aqui embaixo. Ele resiste. Algo entre vocês fica selado.",
+				EventEffect.flag("sacerdote_visto"), EventEffect.xp(140), EventEffect.npc(NpcKind.GHOST.name(), Attitude.FRIENDLY.ordinal())),
+			new EventOption("Perguntar o que desce se ele dormir.",
+				"\"O que eu segurei a vida inteira. Você não quer o nome. Nomear é convidar.\" Ele treme e fica calado.",
+				EventEffect.flag("sacerdote_visto"), EventEffect.item("PotionOfMindVision")),
+			new EventOption("Oferecer-se pra dormir no lugar dele.",
+				"\"Você não saberia segurar.\" Mas ele te olha com uma esperança terrível. \"...ou saberia?\"",
+				EventEffect.flag("sacerdote_visto"), EventEffect.flag("ofereci_dormir"))
+		));
+
+		register(new NarrativeEvent(
+			"sacerdote_tentacao",
+			"O Sono Oferece",
+			"Você passa por uma cela acolchoada, cama macia, escuro perfeito — feita pra dormir. Uma voz mansa: \"Deixe o velho descansar. Durma você por ele. É tão fácil.\"",
+			11, 17, new String[]{}, new String[]{},
+			new String[]{"sacerdote_visto"},
+			new EventOption("Resistir e seguir em pé.",
+				"Você crava a unha na palma e segue. A voz suspira, decepcionada. Você entendeu por que ele aguenta.",
+				EventEffect.xp(220), EventEffect.flag("resisti_ao_sono")),
+			new EventOption("Dormir cinco minutos só.",
+				"Você cochila. No sonho, algo desce um degrau. Você acorda gelado, com a sensação de ter deixado uma porta aberta.",
+				EventEffect.heal(20), EventEffect.flag("dormi_um_pouco")),
+			new EventOption("Quebrar a cama.",
+				"Você destrói o colchão, o escuro, a maciez. A voz grita e se cala. O corredor inteiro parece mais acordado.",
+				EventEffect.damage(10), EventEffect.flag("destrui_a_cama"))
+		));
+
+		register(new NarrativeEvent(
+			"sacerdote_verdade",
+			"O Que o Sacerdote Segura",
+			"Você reencontra o Sacerdote. Pela primeira vez ele te mostra o que vela: uma porta de carne pulsando, com a forma de uma pálpebra gigante prestes a fechar. \"Quando ela piscar, o sonho assume tudo. Eu sou só a pestana.\"",
+			16, 22, new String[]{}, new String[]{"horror", "mistério"},
+			new String[]{"sacerdote_visto"},
+			new EventOption("Jurar segurar a pálpebra com ele.",
+				"Vocês se postam lado a lado contra a porta-olho. Por um instante, ela cede um milímetro pra trás. É vitória suficiente.",
+				EventEffect.htBonus(12), EventEffect.flag("jurei_velar"),
+				EventEffect.lore("A praga é um olho prestes a piscar. O Sacerdote é a pestana que segura.")),
+			new EventOption("Estudar a porta de carne pra entender a fraqueza.",
+				"Você observa por horas. Há uma costura no canto do olho — um ponto que, cortado, fecharia a porta pra sempre, ou a abriria de vez.",
+				EventEffect.xp(260), EventEffect.flag("achei_a_costura"))
+		));
+
+		register(new NarrativeEvent(
+			"sacerdote_escolha",
+			"A Última Vigília",
+			"O Sacerdote desaba de joelhos, onze anos pesando de uma vez. \"Não aguento mais. Decida por mim: me deixe dormir e enfrente o que vem — ou me ajude a fechar o olho pra sempre.\"",
+			21, 24, new String[]{}, new String[]{"tragédia"},
+			new String[]{"sacerdote_visto"},
+			new EventOption("Deixá-lo dormir, enfim.",
+				"Você segura a mão dele enquanto os olhos fecham. Ele sorri, livre. A pálpebra de carne estremece atrás de você — agora é com você.",
+				EventEffect.xp(300), EventEffect.damage(20), EventEffect.flag("sacerdote_dormiu")),
+			new EventOption("Costurar o olho fechado, custe o que custar.",
+				"Você crava a agulha na costura. O olho range, chora, e cede. A porta sela. O Sacerdote chora de alívio e desmaia em paz.",
+				EventEffect.htBonus(18), EventEffect.damage(30), EventEffect.flag("selei_o_olho"), EventEffect.markQuestStep(4)),
+			new EventOption("Trocar de lugar: dormir você, deixá-lo descansar acordado.",
+				"Vocês trocam de papel. Você sente o sono lutar pra te puxar — e a teimosia dele agora vive em você.",
+				EventEffect.flag("troquei_com_o_sacerdote"), EventEffect.buff("Bless", 100))
+		));
+
+		register(new NarrativeEvent(
+			"sacerdote_legado",
+			"A Pestana Que Sobra",
+			"No piso onde o Sacerdote caiu, você encontra o hábito dele dobrado, ainda morno, e um bilhete: \"Quem velar agora vela melhor que eu. Não conte os anos. Só os olhos que mantém fechados.\"",
+			22, 24, new String[]{}, new String[]{},
+			new String[]{"sacerdote_dormiu"},
+			new EventOption("Vestir o hábito.",
+				"Cai sobre você como dever. Você não sente mais sono — e entende que esse é o preço e a dádiva.",
+				EventEffect.htBonus(10), EventEffect.buff("Bless", 150), EventEffect.flag("herdei_a_vigilia")),
+			new EventOption("Enterrar o hábito com honra.",
+				"Você cava com as mãos e o sepulta. Pela primeira vez em onze anos, ninguém vela — e o mundo, por enquanto, aguenta.",
+				EventEffect.xp(240), EventEffect.heal(40))
+		));
+
+		// === Avulsos: praga, doença, decomposição, decadência ===
+
+		register(new NarrativeEvent(
+			"a_mae_das_moscas",
+			"A Mãe das Moscas",
+			"Um zumbido de catedral. No centro de um salão apodrecido, uma figura inchada cobre o rosto com as mãos, e de cada fenda entre os dedos saem moscas. \"Não olhe. Eu era bonita. A praga me deu filhos demais.\"",
+			8, 16, new String[]{"Dungeon da Praga"}, new String[]{"horror", "tragédia"},
+			new EventOption("Dizer que ela ainda é alguém, não uma coisa.",
+				"As moscas hesitam. Por um segundo, entre os dedos, há um olho humano chorando. Ela te abençoa com o que resta de gente nela.",
+				EventEffect.heal(35), EventEffect.buff("Bless", 100), EventEffect.flag("confortei_a_mae")),
+			new EventOption("Pedir um filho dela como guia.",
+				"Uma mosca pousa na sua mão e não sai mais. Por dias, ela te leva aos cantos que importam. Você não pergunta o preço.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.damage(12)),
+			new EventOption("Queimar o ninho.",
+				"O fogo enche o salão de um grito de mil zumbidos. Quando passa, há cinzas e uma mulher bonita, morta, finalmente em paz.",
+				EventEffect.xp(200), EventEffect.damage(15), EventEffect.markQuestStep(1))
+		));
+
+		register(new NarrativeEvent(
+			"agua_da_quarentena",
+			"A Cisterna da Quarentena",
+			"Uma cisterna lacrada com correntes e avisos: \"ÁGUA DOENTE — NÃO BEBA — NÃO REZE PERTO\". A água é limpa demais. Doce demais. Convida.",
+			5, 13, new String[]{"Dungeon da Praga"}, new String[]{},
+			new EventOption("Beber assim mesmo.",
+				"É a melhor água da sua vida. Por uma hora você se sente invencível. Depois, uma tosse seca que não vai embora.",
+				EventEffect.heal(50), EventEffect.flag("bebi_da_cisterna"), EventEffect.damage(5)),
+			new EventOption("Reforçar o lacre.",
+				"Você adiciona correntes ao que já existe. É o tipo de coisa que ninguém vai te agradecer e que salva alguém depois.",
+				EventEffect.xp(150), EventEffect.npc(NpcKind.WANDMAKER.name(), Attitude.FRIENDLY.ordinal())),
+			new EventOption("Encher um cantil pra usar como arma.",
+				"Você guarda a água doente. Ela pesa pouco e promete muito mal a quem você jogar nela.",
+				EventEffect.item("PotionOfHealing"), EventEffect.flag("armei_agua_doente"))
+		));
+
+		register(new NarrativeEvent(
+			"o_doente_que_nao_morre",
+			"O Doente Que Não Morre",
+			"Numa cama de palha podre, um homem coberto de chagas te encara com olhos lúcidos. \"Trezentos anos esperando. A praga não me leva e não me larga. Você tem cara de quem pode encerrar isso.\"",
+			12, 20, new String[]{"Dungeon da Praga"}, new String[]{"tragédia", "decadência"},
+			new EventOption("Dar a ele o fim que pede.",
+				"Você faz o que ele implora, com respeito. Ao último suspiro, trezentos anos saem do corpo de uma vez, como poeira ao vento.",
+				EventEffect.xp(260), EventEffect.markQuestStep(2), EventEffect.flag("libertei_o_doente")),
+			new EventOption("Perguntar como ele aguentou tanto tempo.",
+				"\"Listando coisas bonitas que vi antes. Toma uma: o mar à tarde. Carregue por mim.\" Ele te dá a memória como um presente quente.",
+				EventEffect.heal(40), EventEffect.flag("herdei_a_memoria")),
+			new EventOption("Recuar com medo do contágio.",
+				"Você se afasta. \"Tudo bem. Todo mundo recua.\" A voz dele é gentil. Isso é o pior.",
+				EventEffect.damage(8))
+		));
+
+		register(new NarrativeEvent(
+			"jardim_de_pus",
+			"O Jardim de Pus",
+			"Os Lavradores de Pus cultivaram um canteiro de bolhas que crescem como frutas maduras. Um deles te oferece uma, sorrindo sob a máscara: \"Colheita boa este século.\"",
+			9, 17, new String[]{"Dungeon da Praga"}, new String[]{"decadência"},
+			new EventOption("Recusar e pisar no canteiro.",
+				"As bolhas estouram sob suas botas com um cheiro que você levará andares pra esquecer. Os Lavradores guardam rancor.",
+				EventEffect.npc(NpcKind.WANDMAKER.name(), Attitude.HOSTILE.ordinal()), EventEffect.xp(120)),
+			new EventOption("Aceitar a fruta e guardar.",
+				"Você aceita por educação. Ela pulsa no bolso. Quem sabe sirva — como moeda, como praga, como ambos.",
+				EventEffect.gold(90), EventEffect.flag("peguei_a_fruta")),
+			new EventOption("Perguntar pra que serve a colheita.",
+				"\"Pra alimentar a Mãe, claro. Quer conhecer?\" Você não quer. Mas agora sabe o caminho.",
+				EventEffect.item("ScrollOfMagicMapping"))
+		));
+
+		register(new NarrativeEvent(
+			"sino_da_peste",
+			"O Sino da Peste",
+			"Um pequeno sino de bronze sobre um altar, daqueles que se tocavam pra anunciar carroça de mortos. Uma placa: \"Toque uma vez por alma que você não conseguiu salvar.\"",
+			7, 15, new String[]{}, new String[]{"tragédia"},
+			new EventOption("Tocar uma vez, pensando em alguém.",
+				"O som é limpo e triste. Algo no seu peito se desafoga junto com a vibração. Você respira melhor por um tempo.",
+				EventEffect.heal(40), EventEffect.flag("toquei_o_sino_da_peste")),
+			new EventOption("Tocar até cansar o braço.",
+				"Você toca dezenas de vezes, sem parar, por todos. Quando para, o silêncio é uma absolvição que você não sabia que precisava.",
+				EventEffect.xp(180), EventEffect.buff("Bless", 80)),
+			new EventOption("Roubar o sino de bronze.",
+				"Vale bom dinheiro. Mas ele toca sozinho no seu inventário, baixinho, toda vez que você falha em salvar alguém.",
+				EventEffect.gold(130), EventEffect.flag("roubei_o_sino_da_peste"))
+		));
+
+		register(new NarrativeEvent(
+			"o_medico_de_corvo",
+			"O Médico de Corvo",
+			"O homem da máscara de pássaro de novo — ou outro igual. Mas este sangra sob a máscara. \"Tratei a todos. Ninguém me tratou. Você sabe fechar uma ferida que não para?\"",
+			10, 18, new String[]{"Dungeon da Praga"}, new String[]{},
+			new EventOption("Cuidar das feridas dele.",
+				"Você faz o que pode. Ele chora dentro da máscara — som estranho, de bico. Em troca, ensina como não adoecer aqui.",
+				EventEffect.buff("Bless", 120), EventEffect.npc(NpcKind.WANDMAKER.name(), Attitude.FRIENDLY.ordinal()), EventEffect.flag("curei_o_medico")),
+			new EventOption("Comprar os remédios dele baratos, aproveitando a fraqueza.",
+				"Ele vende quase de graça, sem forças pra negociar. Você sai com o estoque e um gosto ruim na boca.",
+				EventEffect.gold(-30), EventEffect.item("PotionOfHealing"), EventEffect.flag("explorei_o_medico")),
+			new EventOption("Tirar a máscara dele.",
+				"Você puxa. Não há rosto — só mais máscara, e mais, camadas de médicos antigos. Você recoloca a primeira, em silêncio.",
+				EventEffect.damage(10), EventEffect.xp(140))
+		));
+
+		register(new NarrativeEvent(
+			"as_velas_dos_doentes",
+			"O Corredor das Velas",
+			"Um corredor longo, cada centímetro coberto de velas — uma por doente. Muitas apagadas. Algumas tremem, à beira. Uma, exatamente no meio, acende sozinha quando você passa.",
+			6, 14, new String[]{}, new String[]{"mistério", "esperança"},
+			new EventOption("Proteger as chamas que tremem.",
+				"Você faz concha com as mãos por cada vela vacilante. Algumas resistem mais um pouco. Você sente que isso conta em algum lugar.",
+				EventEffect.heal(30), EventEffect.flag("protegi_as_velas")),
+			new EventOption("Acender de volta as apagadas.",
+				"Você reacende dezenas. Não devia ser possível, mas é. O corredor inteiro ilumina e algo, longe, agradece em coro.",
+				EventEffect.xp(200), EventEffect.buff("Bless", 100)),
+			new EventOption("Apagar todas, pra acabar com o sofrimento.",
+				"Você sopra fila após fila. O escuro vem como descanso ou como derrota — você nunca vai ter certeza de qual.",
+				EventEffect.htBonus(8), EventEffect.damage(15), EventEffect.flag("apaguei_as_velas"))
+		));
+
+		register(new NarrativeEvent(
+			"contrato_de_imunidade",
+			"O Contrato de Imunidade",
+			"Um pergaminho oficial preso a uma mesa por um punhal. \"Quem assinar não pega a praga. Em troca, carrega-a sem adoecer — e a espalha por onde anda.\"",
+			11, 19, new String[]{"Dungeon da Praga"}, new String[]{"paranoia"},
+			new EventOption("Assinar com sangue.",
+				"A tinta-sangue gruda. Você nunca mais vai adoecer aqui. Mas as moscas começam a te seguir, leais, como a um rei.",
+				EventEffect.htBonus(12), EventEffect.flag("sou_portador")),
+			new EventOption("Recusar e arrancar o punhal.",
+				"Você liberta o pergaminho, que se enrola e some. O punhal, esse, fica — e é bom.",
+				EventEffect.item("ScrollOfIdentify"), EventEffect.xp(120)),
+			new EventOption("Assinar com nome falso.",
+				"Você assina \"ninguém\". O contrato aceita, confuso. Você fica meio imune, meio portador — e totalmente incerto.",
+				EventEffect.heal(20), EventEffect.damage(10), EventEffect.flag("contrato_ambiguo"))
+		));
+
+		register(new NarrativeEvent(
+			"a_ultima_refeicao",
+			"A Última Refeição da Cidade",
+			"Uma cozinha enorme, panelas frias há séculos, a mesa posta pra um banquete que a praga interrompeu. A comida virou pedra. Mas o cheiro, esse, ainda é de festa.",
+			8, 16, new String[]{}, new String[]{"decadência", "tragédia"},
+			new EventOption("Sentar-se e honrar quem ia comer ali.",
+				"Você se senta um minuto em silêncio. O cheiro de festa fica mais forte, depois se vai, como quem foi enfim liberado pra partir.",
+				EventEffect.heal(35), EventEffect.npc(NpcKind.GHOST.name(), Attitude.FRIENDLY.ordinal())),
+			new EventOption("Vasculhar a cozinha por algo útil.",
+				"Atrás de potes de pedra, você acha um cofre de cozinheiro — moedas que ele guardava pra fugir e não usou a tempo.",
+				EventEffect.gold(120)),
+			new EventOption("Quebrar a comida petrificada.",
+				"Você esmaga os pratos de pedra. Sob um deles, intacta, uma poção que alguém escondeu como sobremesa proibida.",
+				EventEffect.item("PotionOfHealing"), EventEffect.damage(5))
+		));
+
+		register(new NarrativeEvent(
+			"o_confessor_apodrecido",
+			"O Confessionário Podre",
+			"Um confessionário de madeira mole de tão úmida. Da grade, uma voz: \"Há quanto tempo não se confessa? Eu apodreci esperando alguém. Diga seus pecados e eu apodreço em paz.\"",
+			9, 18, new String[]{}, new String[]{"horror", "decadência"},
+			new EventOption("Confessar de verdade.",
+				"Você fala o que nunca falou. Do outro lado, um suspiro úmido. \"Absolvido.\" A madeira finalmente desaba em pó tranquilo.",
+				EventEffect.heal(45), EventEffect.buff("Bless", 100), EventEffect.flag("me_confessei")),
+			new EventOption("Confessar pecados de outra pessoa.",
+				"Você conta os pecados de quem te traiu. A voz ri molhada: \"Esses não são seus pra confessar. Mas obrigado pela fofoca.\"",
+				EventEffect.xp(130), EventEffect.flag("confessei_alheio")),
+			new EventOption("Abrir a porta do confessionário.",
+				"Não há padre — só um manto de musgo no formato de quem rezou ali por demais tempo. Você fecha a porta devagar.",
+				EventEffect.damage(8), EventEffect.item("ScrollOfIdentify"))
+		));
+
+		register(new NarrativeEvent(
+			"a_roda_dos_enjeitados",
+			"A Roda dos Enjeitados",
+			"Uma roda de pedra na parede, dessas onde se deixavam bebês indesejados pra serem recolhidos do outro lado. Algo pequeno chora abafado dentro dela. Mas ela não gira faz séculos.",
+			7, 15, new String[]{}, new String[]{"horror", "tragédia"},
+			new EventOption("Girar a roda devagar.",
+				"Você empurra a pedra emperrada. Do outro lado, o choro para — recolhido, enfim, por algo. Você decide não imaginar o quê.",
+				EventEffect.xp(160), EventEffect.flag("girei_a_roda"), EventEffect.markQuestStep(0)),
+			new EventOption("Falar com o que chora.",
+				"\"Tô aqui\", você diz. O choro vira riso de bebê — o som mais fora de lugar que você já ouviu aqui. Some. Você fica com calafrios e com calma, juntos.",
+				EventEffect.heal(30), EventEffect.damage(5)),
+			new EventOption("Lacrar a roda com pedras.",
+				"Você empilha entulho até o choro abafar de vez. Talvez crueldade. Talvez misericórdia. Você escolhe não saber.",
+				EventEffect.htBonus(6), EventEffect.flag("lacrei_a_roda"))
+		));
 	}
 
 	private static void register(NarrativeEvent e) {
