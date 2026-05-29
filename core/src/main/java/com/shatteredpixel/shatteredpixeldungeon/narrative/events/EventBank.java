@@ -690,6 +690,334 @@ public final class EventBank {
 				"Ela racha. Não conta nada de volta.",
 				EventEffect.xp(100))
 		));
+
+		// ============================================================
+		// BLOCO 1 — Necromancia, Ossos e a Guerra Civil dos Necromantes
+		// ============================================================
+
+		// === Cadeia 6: O Tecelão dos Ossos ===
+		register(new NarrativeEvent(
+			"tecelao_encontro",
+			"O Tear de Ossos",
+			"Numa sala sem porta, um vulto encurvado passa fios brancos por um tear. Os fios são tendões; a trama, um rosto que você quase reconhece. Ele não se vira: \"Falta uma costela na borda. Você tem de sobra.\"",
+			3, 8, new String[]{}, new String[]{"horror", "mistério"},
+			new EventOption("Oferecer uma costela sua.",
+				"A dor é breve e limpa. O rosto no tear abre os olhos e te encara com gratidão obscena.",
+				EventEffect.damage(15), EventEffect.flag("tecelao_visto"), EventEffect.flag("dei_costela"),
+				EventEffect.lore("Dei uma costela ao Tecelão. O rosto no tear era quase o meu.")),
+			new EventOption("Perguntar quem ele tece.",
+				"\"Todos que descem. Você já está aqui há mais tempo do que pensa.\" O tear range. Você sai sem responder.",
+				EventEffect.flag("tecelao_visto"), EventEffect.xp(90)),
+			new EventOption("Cortar os fios.",
+				"Você rasga a trama. O rosto se desfaz num grito sem boca. O vulto finalmente se vira — e não tem cabeça.",
+				EventEffect.damage(10), EventEffect.flag("tecelao_visto"), EventEffect.flag("cortei_o_tear"))
+		));
+
+		register(new NarrativeEvent(
+			"tecelao_pedido",
+			"O Tecelão Cobra",
+			"O vulto encurvado te encontra de novo, mais fundo. \"O tear cresce. Preciso de nomes agora, não de ossos. Me dê o nome de alguém que você deixou morrer.\"",
+			9, 15, new String[]{}, new String[]{},
+			new String[]{"tecelao_visto"},
+			new EventOption("Dar o nome verdadeiro.",
+				"Você fala baixo. O tear absorve as sílabas e fica mais quente. Algo em você desencardece.",
+				EventEffect.xp(220), EventEffect.heal(25), EventEffect.flag("tecelao_servo")),
+			new EventOption("Dar um nome falso.",
+				"O tear hesita, depois aceita. Mas o vulto te observa com a cabeça que não tem.",
+				EventEffect.flag("tecelao_servo"), EventEffect.flag("menti_ao_tecelao")),
+			new EventOption("Recusar e mandar tecer o próprio nome.",
+				"\"Eu já teci. Há muito.\" Ele aponta o tear: no centro da trama, está você. O fio ainda não acabou.",
+				EventEffect.damage(20), EventEffect.flag("tecelao_inimigo"))
+		));
+
+		register(new NarrativeEvent(
+			"tecelao_divida",
+			"O Que o Tear Devolve",
+			"O tear terminou uma peça: uma mortalha leve como respiração. O Tecelão a estende. \"Vista. É sua medida exata. Sempre foi.\"",
+			14, 19, new String[]{}, new String[]{"decadência", "tragédia"},
+			new String[]{"tecelao_servo"},
+			new EventOption("Vestir a mortalha.",
+				"Cai sobre você como água morna. Você não sente mais frio na masmorra — nem nada parecido com medo.",
+				EventEffect.htBonus(12), EventEffect.buff("Bless", 120), EventEffect.flag("vesti_mortalha")),
+			new EventOption("Guardar dobrada.",
+				"Você dobra a peça e a guarda. Pesa pouco. Pesa o tempo todo.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.flag("guardei_mortalha")),
+			new EventOption("Devolver: \"Ainda não.\"",
+				"O Tecelão assenta com a ausência de cabeça. \"Paciência é a única coisa que ensino bem.\"",
+				EventEffect.xp(160))
+		));
+
+		register(new NarrativeEvent(
+			"tecelao_verdade",
+			"A Trama Inteira",
+			"Você encontra a sala maior do tear: tapeçaria do teto ao chão, milhares de rostos. No alto, o Tecelão tem sua própria face na trama — está se tecendo a si mesmo, fio após fio, há eras.",
+			18, 23, new String[]{}, new String[]{},
+			new String[]{"tecelao_servo"},
+			new EventOption("Perguntar por que ele não termina.",
+				"\"Porque o último fio é a morte, herói. E eu prometi a alguém que não morreria antes dela voltar.\" A tapeçaria treme.",
+				EventEffect.xp(280), EventEffect.flag("soube_da_promessa"),
+				EventEffect.lore("O Tecelão se tece há eras porque prometeu não morrer antes de alguém voltar.")),
+			new EventOption("Procurar seu próprio rosto na trama.",
+				"Você o acha. Ao lado, há um fio solto esperando — o próximo a ser puxado.",
+				EventEffect.htBonus(8), EventEffect.flag("vi_meu_fio"))
+		));
+
+		register(new NarrativeEvent(
+			"tecelao_escolha",
+			"O Último Fio",
+			"O Tecelão te chama ao tear pela última vez. \"Estou cansado. Termine minha trama — ou desfaça-a. Os dois me libertam. Só um te custa.\"",
+			21, 24, new String[]{}, new String[]{},
+			new String[]{"soube_da_promessa"},
+			new EventOption("Puxar o último fio e deixá-lo morrer.",
+				"O vulto desmorona num monte de linha. A mortalha em você fica mais leve. Algo, enfim, descansa.",
+				EventEffect.xp(350), EventEffect.heal(40), EventEffect.flag("tecelao_em_paz")),
+			new EventOption("Desfazer a trama inteira pra libertar os rostos.",
+				"Você puxa do avesso. Mil faces se desmancham em alívio — a sua entre elas, por um segundo apavorante.",
+				EventEffect.htBonus(15), EventEffect.damage(25), EventEffect.flag("desfiz_a_trama")),
+			new EventOption("Recusar: \"Teça você mesmo o seu fim.\"",
+				"O Tecelão ri pela primeira vez. \"Então me faça companhia até lá.\" Ele volta ao tear, e seu fio fica perto do dele.",
+				EventEffect.flag("recusei_o_tear"), EventEffect.htBonus(6))
+		));
+
+		register(new NarrativeEvent(
+			"tecelao_inimigo_volta",
+			"A Trama Te Procura",
+			"Fios brancos escorrem pelas paredes atrás de você — o tear veio inteiro, arrastando-se. O Tecelão sem cabeça caminha dentro dele. \"Você se recusou a ser tecido. Tudo bem. Eu teço à força.\"",
+			20, 24, new String[]{}, new String[]{"horror"},
+			new String[]{"tecelao_inimigo"},
+			new EventOption("Queimar os fios com o que tiver.",
+				"O cheiro é insuportável, mas funciona. O tear recua chiando. Você ganha terreno e fôlego.",
+				EventEffect.damage(20), EventEffect.xp(260)),
+			new EventOption("Oferecer o próprio nome de graça.",
+				"\"Tarde demais pra ser dado. Agora eu tomo.\" Ele puxa — e algo seu sai. Mas o que sai, ele não consegue segurar.",
+				EventEffect.htBonus(10), EventEffect.damage(30), EventEffect.lore("O Tecelão tomou meu nome à força. Não soube o que fazer com ele."))
+		));
+
+		// === Avulsos: necromancia, ossos, decomposição ===
+
+		register(new NarrativeEvent(
+			"ossos_que_cantam",
+			"Ossos Que Cantam",
+			"Um monte de ossos empilhados no canto entoa uma nota baixa e contínua, como se respirasse a mesma canção há séculos.",
+			4, 12, new String[]{}, new String[]{"mistério", "tragédia"},
+			new EventOption("Acompanhar a canção com a voz.",
+				"Você cantarola junto. Os ossos respondem com um acorde, e por um momento você lembra de uma canção da sua infância.",
+				EventEffect.heal(30), EventEffect.flag("cantei_com_os_ossos")),
+			new EventOption("Procurar de onde vem a nota.",
+				"No fundo da pilha, um crânio com a mandíbula presa por um arame. Você o solta. A nota muda de tom.",
+				EventEffect.item("ScrollOfIdentify")),
+			new EventOption("Calar os ossos.",
+				"Você espalha a pilha com o pé. O silêncio que segue é pior que a canção.",
+				EventEffect.damage(8), EventEffect.npc(NpcKind.GHOST.name(), Attitude.HOSTILE.ordinal()))
+		));
+
+		register(new NarrativeEvent(
+			"aprendiz_de_necromante",
+			"O Aprendiz Que Sobrou",
+			"Um jovem pálido remexe cadáveres com pressa de quem foi deixado pra trás. \"O mestre fugiu na guerra. Me ensinaram metade da arte. Me ajuda a terminar um?\"",
+			6, 14, new String[]{"Guerra Civil dos Necromantes"}, new String[]{},
+			new EventOption("Ajudar a erguer o morto.",
+				"Vocês conseguem. A coisa se levanta torta, mas obedece. O aprendiz chora de alívio e te dá o que tem.",
+				EventEffect.item("PotionOfMindVision"), EventEffect.npc(NpcKind.WANDMAKER.name(), Attitude.FRIENDLY.ordinal())),
+			new EventOption("Ensinar a parar.",
+				"\"Largue isso. Você ainda está vivo.\" Ele olha as próprias mãos como se fossem de outro. Assente devagar.",
+				EventEffect.xp(140), EventEffect.flag("salvei_o_aprendiz")),
+			new EventOption("Tomar o livro e ir.",
+				"Você arranca o grimório dele e segue. Os gritos do garoto te seguem por dois corredores.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.damage(10))
+		));
+
+		register(new NarrativeEvent(
+			"viuva_de_osso",
+			"A Viúva de Osso",
+			"Uma mulher de luto cava com as unhas num chão de pedra. \"Enterraram meu marido sem nome. Sem nome eles não descansam. Me empresta o seu?\"",
+			5, 13, new String[]{}, new String[]{"tragédia", "decadência"},
+			new EventOption("Dar seu nome ao túmulo.",
+				"Você fala. Ela escreve com o dedo sangrando. O chão para de tremer. Você se sente estranhamente mais leve — e mais nu.",
+				EventEffect.heal(25), EventEffect.flag("emprestei_meu_nome")),
+			new EventOption("Inventar um nome bonito.",
+				"Você diz \"Lúmen\". Ela aceita, grata. O nome falso fica boiando no ar como mentira gentil.",
+				EventEffect.xp(110)),
+			new EventOption("Cavar junto.",
+				"Vocês cavam horas. Encontram o marido — que abre os olhos. A viúva sorri. Você não.",
+				EventEffect.damage(15), EventEffect.gold(90))
+		));
+
+		register(new NarrativeEvent(
+			"exercito_adormecido",
+			"O Exército Adormecido",
+			"Uma sala vasta de soldados mortos em pé, alinhados, esperando uma ordem que nunca veio. A poeira sobre eles tem a idade de um reino.",
+			12, 20, new String[]{"Guerra Civil dos Necromantes", "Reino Caído"}, new String[]{},
+			new EventOption("Dar a ordem de descanso.",
+				"\"Dispensados.\" Sua voz ecoa. Um a um, os soldados se ajoelham e viram pó. O ar enche de alívio antigo.",
+				EventEffect.xp(240), EventEffect.markQuestStep(3), EventEffect.flag("dispensei_o_exercito")),
+			new EventOption("Tomar uma arma da fileira.",
+				"Você escolhe uma lança. O soldado solta sem resistir. Os outros viram a cabeça, todos juntos, para você.",
+				EventEffect.gold(120), EventEffect.damage(15), EventEffect.flag("armei_me_com_os_mortos")),
+			new EventOption("Sair de costas, sem virar.",
+				"Você recua olhando-os. Eles não se mexem. Mas você jura que respiram no mesmo ritmo que você.",
+				EventEffect.text())
+		));
+
+		register(new NarrativeEvent(
+			"sudario_em_branco",
+			"Sudário em Branco",
+			"Pendurado num gancho, um sudário limpo, com um bilhete: \"Para o próximo. Escreva nele a morte que prefere.\"",
+			8, 17, new String[]{}, new String[]{"horror", "paranoia"},
+			new EventOption("Escrever \"velho, em paz, longe daqui\".",
+				"A tinta seca instantânea. Você sente uma promessa morna se firmar — ou uma armadilha se fechar.",
+				EventEffect.buff("Bless", 100), EventEffect.flag("escrevi_minha_morte")),
+			new EventOption("Deixar em branco.",
+				"Você o pendura de volta. Recusar-se a escolher também é uma escolha — e essa o sudário respeita.",
+				EventEffect.xp(130)),
+			new EventOption("Rasgar o sudário.",
+				"Você rasga. Cada tira cai e se mexe sozinha um instante antes de parar. Algo ficou sem destino.",
+				EventEffect.damage(12), EventEffect.gold(60))
+		));
+
+		register(new NarrativeEvent(
+			"mao_que_escreve",
+			"A Mão Que Ainda Escreve",
+			"Sobre uma escrivaninha, uma mão decepada continua escrevendo num livro, molhando a pena num tinteiro de sangue seco que ela reabre com a própria unha.",
+			7, 16, new String[]{}, new String[]{"horror", "mistério"},
+			new EventOption("Ler o que ela escreve.",
+				"São seus passos. Tudo o que você fez na masmorra, em tempo real, com um capítulo já escrito à frente: o que você fará agora.",
+				EventEffect.item("PotionOfMindVision"), EventEffect.flag("li_o_livro_da_mao")),
+			new EventOption("Tomar a pena.",
+				"A mão para. Te encara — mãos podem encarar. Depois aponta uma linha em branco: agora você escreve.",
+				EventEffect.xp(160), EventEffect.flag("tomei_a_pena")),
+			new EventOption("Fechar o livro sobre a mão.",
+				"Você bate o livro. A mão se contorce e fica imóvel. O capítulo seguinte nunca será escrito. Você decide isso.",
+				EventEffect.heal(20), EventEffect.damage(10))
+		));
+
+		register(new NarrativeEvent(
+			"banquete_dos_mortos",
+			"O Banquete Que Não Acaba",
+			"Uma longa mesa de convivas mortos, garfos suspensos no ar, mastigando nada há tanto tempo que esqueceram que estão mortos. Há um lugar vago. Com seu nome.",
+			10, 18, new String[]{}, new String[]{"decadência"},
+			new EventOption("Sentar e fingir comer.",
+				"Você levanta o garfo vazio. Os convivas viram-se, satisfeitos: enfim alguém os acompanha. Algo te enche sem que você coma.",
+				EventEffect.heal(35), EventEffect.flag("comi_com_os_mortos")),
+			new EventOption("Virar a cadeira vazia.",
+				"Você recusa o assento e o derruba. O banquete inteiro para de mastigar ao mesmo tempo. O silêncio dura.",
+				EventEffect.npc(NpcKind.GHOST.name(), Attitude.HOSTILE.ordinal()), EventEffect.xp(120)),
+			new EventOption("Apagar as velas.",
+				"Uma a uma. A cada vela morta, um conviva descansa de verdade. Quando a última apaga, você está sozinho — e em paz.",
+				EventEffect.xp(180), EventEffect.markQuestStep(1))
+		));
+
+		register(new NarrativeEvent(
+			"poco_de_dentes",
+			"O Poço de Dentes",
+			"Um poço seco até a borda de dentes humanos. Cada um, dizem as marcas na pedra, é uma mentira que alguém contou aqui.",
+			9, 17, new String[]{}, new String[]{"horror", "decadência"},
+			new EventOption("Confessar uma mentira ao poço.",
+				"Você fala. Um dente seu cai na palma da mão, indolor. Você o joga lá. O peso de algo antigo te deixa.",
+				EventEffect.heal(30), EventEffect.flag("confessei_ao_poco")),
+			new EventOption("Pegar um punhado de dentes.",
+				"Você enche o bolso. Eles tilintam como moedas e valem como tal — para quem compra esse tipo de coisa.",
+				EventEffect.gold(110), EventEffect.damage(8)),
+			new EventOption("Recuar.",
+				"Você se afasta. Atrás de você, um dente novo cai sozinho na pilha. Você não contou nada. Não ainda.",
+				EventEffect.text())
+		));
+
+		register(new NarrativeEvent(
+			"o_coveiro_sem_nome",
+			"O Coveiro Sem Nome",
+			"Um homem de pá larga abre covas que ninguém pediu. \"Cavo pra todo mundo que vai descer. A sua tá quase pronta. Quer ver?\"",
+			11, 19, new String[]{}, new String[]{"paranoia", "tragédia"},
+			new EventOption("Olhar a própria cova.",
+				"É funda, limpa, do seu tamanho. No fundo, sua silhueta já está marcada na terra. Você sobe sabendo demais.",
+				EventEffect.xp(200), EventEffect.flag("vi_minha_cova")),
+			new EventOption("Pedir pra ele parar de cavar a sua.",
+				"\"Posso atrasar. Não posso cancelar.\" Ele tampa metade. Algo no seu peito relaxa um pouco — só um pouco.",
+				EventEffect.heal(25), EventEffect.npc(NpcKind.GHOST.name(), Attitude.FRIENDLY.ordinal())),
+			new EventOption("Empurrá-lo na cova que ele cavou.",
+				"Ele cai sem protestar. Lá do fundo: \"Agora é a sua que sobra livre. Obrigado.\" Você não dorme bem.",
+				EventEffect.damage(15), EventEffect.gold(80))
+		));
+
+		register(new NarrativeEvent(
+			"relicario_de_cinzas",
+			"Relicário de Cinzas",
+			"Uma caixa de prata cheia de cinzas mornas, marcada pelo símbolo da Ordem das Cinzas. As cinzas se mexem como se respirassem.",
+			6, 15, new String[]{"Dungeon da Praga"}, new String[]{},
+			new EventOption("Espalhar as cinzas no chão, como manda o rito.",
+				"Você as solta. Elas sobem em vez de cair, formam um rosto agradecido por um instante, e somem.",
+				EventEffect.xp(160), EventEffect.buff("Bless", 80), EventEffect.npc(NpcKind.WANDMAKER.name(), Attitude.FRIENDLY.ordinal())),
+			new EventOption("Levar o relicário fechado.",
+				"Prata é prata. Você guarda. Algo lá dentro range a noite toda contra a tampa.",
+				EventEffect.gold(140), EventEffect.flag("roubei_as_cinzas")),
+			new EventOption("Soprar as cinzas na própria mão.",
+				"Você as sopra e elas grudam. Por um dia inteiro você sabe, sem saber por quê, onde estão os mortos.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.damage(10))
+		));
+
+		register(new NarrativeEvent(
+			"o_que_resta_do_mestre",
+			"O Que Resta do Mestre",
+			"Num trono de costelas, um necromante antigo, reduzido a torso e voz. \"A guerra me deixou assim. Meus aprendizes me dividiram. Você parece inteiro. Que luxo.\"",
+			15, 22, new String[]{"Guerra Civil dos Necromantes"}, new String[]{},
+			new EventOption("Perguntar onde estão as outras partes dele.",
+				"\"Espalhadas, em servos diferentes, brigando. Junte-me e eu te ensino o que ninguém mais sabe.\" Ele te dá um mapa de carne.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.xp(220), EventEffect.flag("prometi_juntar_o_mestre")),
+			new EventOption("Dar a ele um fim digno.",
+				"Você encerra o torso com cuidado. Os olhos agradecem. O trono de costelas se acomoda como quem enfim deita.",
+				EventEffect.markQuestStep(4), EventEffect.heal(30)),
+			new EventOption("Roubar o coração ainda batendo.",
+				"Você o arranca. Bate na sua mão como um pássaro preso. Vale uma fortuna. Custa um sono tranquilo.",
+				EventEffect.gold(200), EventEffect.damage(20), EventEffect.flag("roubei_o_coracao"))
+		));
+
+		register(new NarrativeEvent(
+			"a_costureira_de_carne",
+			"A Costureira de Carne",
+			"Uma velha costura pedaços de gente diferente numa só figura sobre a mesa. \"Tô fazendo um companheiro pra mim. Falta um sorriso bom. O seu serve.\"",
+			13, 21, new String[]{}, new String[]{"horror"},
+			new EventOption("Recusar e cobrir o rosto.",
+				"\"Que pena. Era um sorriso honesto.\" Ela volta à costura. Você sai sentindo a própria boca, conferindo se ainda é sua.",
+				EventEffect.text(), EventEffect.flag("neguei_o_sorriso")),
+			new EventOption("Oferecer um sorriso seu.",
+				"Não dói como você temia. Ela costura no rosto da criatura. Ela acorda, sorri pra você com a sua boca, e te abençoa.",
+				EventEffect.htBonus(10), EventEffect.damage(15), EventEffect.buff("Bless", 100)),
+			new EventOption("Cortar as linhas da criatura.",
+				"Você desfaz a figura antes que ela acorde. A velha grita como mãe. As partes voltam a ser várias pessoas mortas.",
+				EventEffect.xp(170), EventEffect.npc(NpcKind.GHOST.name(), Attitude.HOSTILE.ordinal()))
+		));
+
+		register(new NarrativeEvent(
+			"o_arquivista_osseo",
+			"O Arquivista Ósseo",
+			"Estantes de fêmures gravados a fogo. Um bibliotecário de dedos longos passa o polegar nos ossos como quem lê lombadas. \"Cada osso, uma vida. Quer saber a sua?\"",
+			10, 19, new String[]{}, new String[]{"mistério"},
+			new EventOption("Pedir pra ler seu osso.",
+				"Ele acha um fêmur na prateleira mais alta. Lê em voz baixa. Conta coisas que você fez e uma que ainda não fez.",
+				EventEffect.item("PotionOfMindVision"), EventEffect.flag("li_meu_osso")),
+			new EventOption("Pedir o osso de alguém que você perdeu.",
+				"Ele hesita, depois entrega. Você ouve a vida inteira de quem se foi. Chora. Devolve. Algo cicatriza.",
+				EventEffect.heal(45), EventEffect.xp(120)),
+			new EventOption("Queimar o arquivo.",
+				"Você ateia fogo às estantes. Mil vidas viram fumaça e gritam juntas. O arquivista te observa arder por dentro.",
+				EventEffect.damage(20), EventEffect.gold(100), EventEffect.flag("queimei_o_arquivo"))
+		));
+
+		register(new NarrativeEvent(
+			"trato_com_o_sudario",
+			"Trato com o Sudário",
+			"Um sudário flutua sozinho à sua frente, no formato de alguém que não está mais lá. \"Eu te visto agora e você não sente dor lá embaixo. Mas eu fico com a última hora.\"",
+			16, 23, new String[]{}, new String[]{"tragédia"},
+			new EventOption("Aceitar o trato.",
+				"O pano te envolve e desaparece sob a pele. Você não sente mais nada doer — e sabe que comprou isso caro.",
+				EventEffect.htBonus(15), EventEffect.flag("vendi_a_ultima_hora")),
+			new EventOption("Recusar e seguir sentindo tudo.",
+				"\"Corajoso. Ou tolo.\" O sudário murcha no chão. A dor segue sua — toda sua, ainda.",
+				EventEffect.xp(180)),
+			new EventOption("Vestir o sudário em outro morto pra libertá-lo.",
+				"Você o coloca sobre um corpo no chão. O morto suspira e some. O sudário some junto, satisfeito com a troca.",
+				EventEffect.heal(30), EventEffect.markQuestStep(2))
+		));
 	}
 
 	private static void register(NarrativeEvent e) {
