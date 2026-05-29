@@ -1280,6 +1280,255 @@ public final class EventBank {
 				"Você empilha entulho até o choro abafar de vez. Talvez crueldade. Talvez misericórdia. Você escolhe não saber.",
 				EventEffect.htBonus(6), EventEffect.flag("lacrei_a_roda"))
 		));
+
+		// ============================================================
+		// BLOCO 3 — Sonho Corrompido, a Colmeia Parasita e a Loucura
+		// ============================================================
+
+		// === Cadeia 8: A Voz Coletiva ===
+		register(new NarrativeEvent(
+			"colmeia_sussurro",
+			"O Primeiro Sussurro Coletivo",
+			"Você ouve sua própria voz dizer \"nós\" sem ter aberto a boca. De uma fenda na parede, dezenas de bocas pequenas pulsam em uníssono, atropelando as palavras antes de acertá-las: \"Você anda tão so... sozinho. Não precisa ser assim.\"",
+			3, 9, new String[]{"Colmeia Parasita"}, new String[]{"horror", "loucura"},
+			new EventOption("Encostar o ouvido na fenda.",
+				"O coro te conta segredos da masmorra que ninguém vivo saberia. Útil. Íntimo. Você se afasta sabendo demais e sentindo-se observado por dentro.",
+				EventEffect.flag("colmeia_ouvida"), EventEffect.item("PotionOfMindVision")),
+			new EventOption("Responder \"eu\", bem alto.",
+				"As bocas calam, ofendidas. \"Eu\", elas repetem, estranhando a palavra. Você firma quem é. Por enquanto.",
+				EventEffect.flag("colmeia_ouvida"), EventEffect.xp(120)),
+			new EventOption("Tapar a fenda com entulho.",
+				"Você entope a parede. O sussurro abafa, mas não para — só fica do outro lado da pedra, paciente.",
+				EventEffect.flag("colmeia_ouvida"), EventEffect.damage(8))
+		));
+
+		register(new NarrativeEvent(
+			"colmeia_convite",
+			"O Convite da Colmeia",
+			"Um homem te aborda, tranquilo, olhos calmos demais. \"Eu fui como você. Sozinho na cabeça. Aí abri espaço. Agora nunca mais tenho medo, porque nunca mais estou só aqui dentro. Quer experimentar uma noite?\"",
+			10, 16, new String[]{}, new String[]{},
+			new String[]{"colmeia_ouvida"},
+			new EventOption("Recusar com firmeza.",
+				"\"Tudo bem. A porta fica aberta.\" Ele aponta a própria têmpora. Você anda mais rápido pelos próximos andares.",
+				EventEffect.xp(200), EventEffect.flag("recusei_a_colmeia")),
+			new EventOption("Aceitar \"só uma noite\".",
+				"Você dorme. No sonho, mil vozes amigas. Acorda descansado como nunca — e com uma palavra nova que não é sua morando atrás dos olhos.",
+				EventEffect.heal(40), EventEffect.flag("abri_espaco")),
+			new EventOption("Perguntar o que ele perdeu em troca.",
+				"Ele pensa muito. Muito mesmo. \"...não lembro. Mas eles lembram por mim. É melhor assim.\" Você decide que não é.",
+				EventEffect.flag("recusei_a_colmeia"), EventEffect.item("ScrollOfIdentify"))
+		));
+
+		register(new NarrativeEvent(
+			"colmeia_tentacao",
+			"A Solidão Pesa",
+			"Num momento de exaustão, o coro volta, suave, maternal: \"Você está tão cansado de decidir tudo sozinho. Deixe a gente carregar metade. Só metade. Você nem vai sentir falta.\"",
+			14, 20, new String[]{}, new String[]{"loucura", "tragédia"},
+			new String[]{"abri_espaco"},
+			new EventOption("Reconquistar o espaço aberto.",
+				"Você fecha os olhos e empurra de dentro pra fora, sílaba por sílaba, até a cabeça voltar a ser só sua. Dói. Vale.",
+				EventEffect.htBonus(12), EventEffect.damage(20), EventEffect.flag("retomei_a_cabeca")),
+			new EventOption("Ceder a metade que pesa.",
+				"Você entrega o cansaço — e ele leva junto um pedaço seu que você nem sabia o nome. Fica mais leve. Fica menos.",
+				EventEffect.heal(50), EventEffect.flag("cedi_metade")),
+			new EventOption("Negociar: emprestado, não dado.",
+				"\"Empréstimo\", você insiste. O coro acha graça mas aceita. Agora há um contrato dentro da sua testa, e você não confia no fiador.",
+				EventEffect.buff("Recharging", 80), EventEffect.flag("emprestei_metade"))
+		));
+
+		register(new NarrativeEvent(
+			"colmeia_verdade",
+			"O Hospedeiro Original",
+			"Você chega ao centro da colmeia: uma única pessoa, a primeira, fundida à parede, sorrindo, com mil bocas brotando do corpo. \"Eu fui o primeiro a abrir espaço. Olha que companhia eu fiz. Você nunca mais vai me deixar sozinho, vai?\"",
+			18, 23, new String[]{"Colmeia Parasita"}, new String[]{},
+			new String[]{"colmeia_ouvida"},
+			new EventOption("Perguntar quem ele era antes.",
+				"As bocas hesitam, discordam entre si, brigam. Por uma brecha, um sussurro só, fraquíssimo, lúcido: \"Me ajuda. Por favor. Eu ainda estou aqui no meio.\"",
+				EventEffect.xp(280), EventEffect.flag("ouvi_o_hospedeiro"),
+				EventEffect.lore("No centro da colmeia ainda há uma pessoa pedindo ajuda, soterrada pelas próprias vozes.")),
+			new EventOption("Mapear a colmeia inteira do centro.",
+				"Daqui você vê tudo. Cada hospedeiro, cada fenda, cada caminho. O coro deixa — afinal, mapear faz parte de pertencer.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.flag("mapeei_a_colmeia"))
+		));
+
+		register(new NarrativeEvent(
+			"colmeia_escolha",
+			"Calar o Coro",
+			"O Hospedeiro Original treme no centro de tudo, a voz original lutando contra as mil. \"Você pode me libertar — me matar cala todas. Ou pode juntar-se e fazer o coro tão grande que vira paz. Escolha rápido, antes que eu esqueça que pedi.\"",
+			21, 24, new String[]{}, new String[]{"tragédia"},
+			new String[]{"ouvi_o_hospedeiro"},
+			new EventOption("Libertá-lo — encerrar o original.",
+				"Você faz o gesto certo. A pessoa no meio sorri de verdade, uma vez, antes das mil bocas se calarem todas de uma vez. Silêncio. Enfim.",
+				EventEffect.xp(340), EventEffect.heal(30), EventEffect.flag("calei_o_coro"), EventEffect.markQuestStep(4)),
+			new EventOption("Juntar-se pra fazer o coro virar paz.",
+				"Você abre espaço de propósito, total. As vozes te recebem como casa. Você nunca mais estará só. Você nunca mais estará só.",
+				EventEffect.htBonus(20), EventEffect.flag("virei_coro")),
+			new EventOption("Recusar as duas saídas e simplesmente sair.",
+				"Você dá as costas ao centro. O coro grita seu nome em mil tons. Você desce sem olhar, com a cabeça ainda — por enquanto — sua.",
+				EventEffect.damage(15), EventEffect.flag("abandonei_a_colmeia"))
+		));
+
+		// === Avulsos: sonho, loucura, percepção, o eu ===
+
+		register(new NarrativeEvent(
+			"o_sonhador_acordado",
+			"O Sonhador Acordado",
+			"Um homem dorme de pé, de olhos abertos, andando em círculos lentos. Ao passar por você, murmura detalhes da sua vida que você nunca contou a ninguém. Ele está te sonhando.",
+			8, 17, new String[]{"Sonho Corrompido"}, new String[]{"loucura", "mistério"},
+			new EventOption("Acordá-lo com um tapa.",
+				"Ele acorda gritando. \"Por que você me tirou de lá? Lá você era feliz!\" Você não pergunta o que ele viu. Mas pensa nisso por andares.",
+				EventEffect.damage(10), EventEffect.xp(160), EventEffect.flag("acordei_o_sonhador")),
+			new EventOption("Pedir pra ele sonhar um final feliz pra você.",
+				"Ele sorri dormindo e murmura algo morno. Por um dia inteiro você carrega uma calma que não tem causa e não quer perder.",
+				EventEffect.heal(45), EventEffect.buff("Bless", 100)),
+			new EventOption("Deitar e dormir ao lado dele.",
+				"Vocês sonham o mesmo sonho. Você vê a masmorra como ela se vê. Acorda com conhecimento que dói de tão grande.",
+				EventEffect.item("PotionOfMindVision"), EventEffect.damage(12))
+		));
+
+		register(new NarrativeEvent(
+			"a_porta_que_voce_lembra",
+			"A Porta Que Você Lembra",
+			"Uma porta comum de madeira, mas você a reconhece: é a porta do quarto da sua infância, impossivelmente aqui, embaixo da terra. Por baixo dela, luz morna e um cheiro de comida que você esqueceu que amava.",
+			6, 15, new String[]{"Sonho Corrompido"}, new String[]{"tragédia", "esperança"},
+			new EventOption("Abrir a porta.",
+				"Lá dentro está tudo como era. Por um instante perfeito, você está em casa. Aí a luz apaga e é só pedra. Mas o instante foi real.",
+				EventEffect.heal(50), EventEffect.damage(10), EventEffect.flag("abri_a_porta_da_infancia")),
+			new EventOption("Encostar a testa na porta e seguir.",
+				"Você não abre. Sabe que abrir machucaria mais. Encosta a testa, respira o cheiro uma vez, e desce. É a coisa mais corajosa do dia.",
+				EventEffect.xp(220), EventEffect.buff("Bless", 80)),
+			new EventOption("Arrombar e revistar o quarto.",
+				"Você entra à força. O quarto se desfaz no contato. Sob a cama da infância, uma moeda de verdade, fria, que sobrou de algum lugar.",
+				EventEffect.gold(100), EventEffect.damage(15))
+		));
+
+		register(new NarrativeEvent(
+			"o_mapa_que_mente",
+			"O Mapa Que Mente",
+			"Pregado na parede, um mapa detalhado da masmorra. Tudo certo, exceto que ele mostra você parado num lugar onde você não está — e a figurinha que é você se move sozinha, um passo à frente do seu.",
+			9, 18, new String[]{}, new String[]{"paranoia", "mistério"},
+			new EventOption("Seguir onde a figurinha vai.",
+				"Você obedece ao mapa contra o instinto. Ele te leva a um atalho real que você jamais acharia. Mas agora você não sabe quem anda na frente.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.flag("segui_o_mapa")),
+			new EventOption("Arrancar o mapa da parede.",
+				"Você o rasga. A figurinha-você fica presa entre seus dedos, mexendo-se um segundo, antes de virar papel comum. Você guarda o pedaço.",
+				EventEffect.xp(150), EventEffect.damage(5)),
+			new EventOption("Riscar a figurinha com carvão.",
+				"Você apaga o boneco que é você. Imediatamente sente um alívio — e a leve, terrível impressão de ter apagado a si mesmo de algum registro.",
+				EventEffect.htBonus(6), EventEffect.flag("apaguei_meu_boneco"))
+		));
+
+		register(new NarrativeEvent(
+			"as_duas_portas",
+			"As Duas Portas Idênticas",
+			"Duas portas iguais. Sobre uma: \"A verdade que você teme.\" Sobre a outra: \"A mentira que te conforta.\" Não há terceira saída e o corredor atrás de você sumiu.",
+			11, 20, new String[]{}, new String[]{"loucura"},
+			new EventOption("Abrir a porta da verdade.",
+				"Lá dentro, um espelho. Só você, exato, sem perdão e sem disfarce. Você sai mais pesado e mais firme, sabendo de si.",
+				EventEffect.htBonus(10), EventEffect.damage(15), EventEffect.flag("escolhi_a_verdade")),
+			new EventOption("Abrir a porta da mentira.",
+				"Lá dentro, alguém que você perdeu, vivo, dizendo que está tudo bem. Você sabe que é falso. Aceita o abraço mesmo assim. Cura o que dá.",
+				EventEffect.heal(50), EventEffect.flag("escolhi_a_mentira")),
+			new EventOption("Abrir as duas ao mesmo tempo.",
+				"Você empurra ambas. Verdade e mentira se anulam num clarão. O corredor de trás reaparece. Você não escolheu — e isso também é uma resposta.",
+				EventEffect.xp(180))
+		));
+
+		register(new NarrativeEvent(
+			"o_relogio_sem_ponteiros",
+			"O Relógio Sem Ponteiros",
+			"Um relógio de parede grande, sem ponteiros, mas tiquetaqueando alto. Quanto mais você o encara, mais certeza tem de que algo está acabando o tempo — o seu, especificamente.",
+			7, 16, new String[]{"Catacumbas em Loop Temporal"}, new String[]{"paranoia"},
+			new EventOption("Parar o pêndulo com a mão.",
+				"Você segura o pêndulo. O tique para. O silêncio é absoluto e, por um momento, você sente que ganhou tempo de algum lugar.",
+				EventEffect.buff("Bless", 100), EventEffect.flag("parei_o_relogio")),
+			new EventOption("Desenhar ponteiros marcando uma hora boa.",
+				"Você risca dois ponteiros no vidro, numa hora qualquer feliz. O relógio aceita a ficção e, gentilmente, desacelera o tique.",
+				EventEffect.heal(30), EventEffect.xp(120)),
+			new EventOption("Quebrar o relógio.",
+				"Estilhaços e silêncio. Atrás do mostrador, em vez de engrenagens, ossos pequenos arrumados como mecanismo. Você não conta a ninguém.",
+				EventEffect.gold(90), EventEffect.damage(10))
+		));
+
+		register(new NarrativeEvent(
+			"o_proprio_cadaver",
+			"O Próprio Cadáver",
+			"Um corpo caído de bruços, com suas roupas, sua altura, sua cicatriz. Pela posição da mão, morreu tentando alcançar a escada de descida. Tentando descer. Como você, agora.",
+			13, 22, new String[]{"Catacumbas em Loop Temporal"}, new String[]{"horror", "paranoia"},
+			new EventOption("Revistar o próprio cadáver.",
+				"Nos bolsos, suas coisas. E um bilhete na sua letra: \"Da próxima vez, não confie no que tem cara da gente.\" Você guarda. E lê de novo. E de novo.",
+				EventEffect.item("ScrollOfIdentify"), EventEffect.flag("achei_meu_cadaver")),
+			new EventOption("Enterrar a si mesmo com respeito.",
+				"Você cava e sepulta o corpo que tem seu rosto. É o luto mais estranho da sua vida. Quando termina, sente-se, absurdamente, mais vivo.",
+				EventEffect.xp(220), EventEffect.heal(25)),
+			new EventOption("Virar o corpo pra ver o rosto.",
+				"Você o vira. O rosto é seu — mas velho, exausto, com décadas a mais de masmorra. Os olhos abrem. \"Ah. Cedo demais.\" E fecham.",
+				EventEffect.htBonus(10), EventEffect.damage(20), EventEffect.flag("vi_meu_rosto_velho"))
+		));
+
+		register(new NarrativeEvent(
+			"a_plateia_imovel",
+			"A Plateia Imóvel",
+			"Uma sala em formato de teatro. As poltronas estão cheias de figuras imóveis, todas viradas pra você, esperando. No palco — que é onde você está — um holofote acende sozinho. É a sua vez.",
+			10, 19, new String[]{}, new String[]{"loucura", "paranoia"},
+			new EventOption("Fazer uma reverência e atuar.",
+				"Você declama algo, qualquer coisa, do fundo do peito. A plateia imóvel não aplaude — mas, ao fim, todas as cabeças se inclinam de uma vez. Aprovação.",
+				EventEffect.xp(180), EventEffect.buff("Bless", 80), EventEffect.flag("atuei_pra_plateia")),
+			new EventOption("Sentar-se numa poltrona vazia e virar plateia.",
+				"Você se senta entre eles. O holofote procura outro alguém no palco — mas não há. Você espera, junto com os outros, por quem nunca vem.",
+				EventEffect.heal(20), EventEffect.flag("virei_plateia")),
+			new EventOption("Acender as luzes da sala.",
+				"Você acha o interruptor. Sob a luz plena, as poltronas estão vazias e empoeiradas. Sempre estiveram. O holofote, esse, ainda te procura.",
+				EventEffect.damage(8), EventEffect.xp(140))
+		));
+
+		register(new NarrativeEvent(
+			"o_colecionador_de_eus",
+			"O Colecionador de Eus",
+			"Numa galeria de redomas de vidro, versões suas de outras vidas: você-rei, você-mendigo, você-que-desistiu. Um curador de luvas brancas se aproxima. \"Exemplar magnífico, o senhor vivo. Aceita posar? Faltava o seu canto.\"",
+			14, 22, new String[]{"Sonho Corrompido"}, new String[]{"mistério", "loucura"},
+			new EventOption("Recusar a posar.",
+				"\"Que pena.\" Ele suspira e te deixa estudar as redomas. Você aprende, vendo o que poderia ter sido, algo afiado sobre quem é.",
+				EventEffect.htBonus(8), EventEffect.flag("recusei_a_redoma")),
+			new EventOption("Quebrar a redoma do 'você-que-desistiu'.",
+				"O vidro estala. A versão derrotada de você se desfaz em pó com um suspiro de gratidão. Você sente um peso velho sair junto.",
+				EventEffect.heal(40), EventEffect.xp(120), EventEffect.flag("libertei_o_desistente")),
+			new EventOption("Roubar a coroa do 'você-rei'.",
+				"Você abre a redoma e pega a coroa do que poderia ter sido. É de ouro de verdade. O curador anota seu nome num livro de exemplares perdidos.",
+				EventEffect.gold(160), EventEffect.damage(10), EventEffect.flag("roubei_a_coroa_alternativa"))
+		));
+
+		register(new NarrativeEvent(
+			"o_eco_que_pergunta",
+			"O Eco Que Faz Perguntas",
+			"Numa câmara redonda, seu eco volta diferente: em vez de repetir, ele pergunta. \"Por que você desce mesmo?\" — com a sua voz, mas com uma curiosidade que você não pôs ali.",
+			5, 14, new String[]{}, new String[]{"mistério"},
+			new EventOption("Responder com a verdade.",
+				"Você diz, em voz alta, o motivo real de estar aqui — talvez pela primeira vez. O eco fica satisfeito e some. Você fica com a resposta. É sua agora.",
+				EventEffect.heal(30), EventEffect.xp(150), EventEffect.flag("respondi_ao_eco")),
+			new EventOption("Devolver a pergunta ao eco.",
+				"\"E você, por que pergunta?\" O eco hesita — eco não devia hesitar. \"...porque alguém tem que perguntar.\" Vocês ficam, os dois, sem resposta boa.",
+				EventEffect.item("PotionOfMindVision")),
+			new EventOption("Gritar pra abafar o eco.",
+				"Você grita até a garganta arder. O eco se mistura ao seu berro e some no barulho. A pergunta, no entanto, fica. Sempre fica.",
+				EventEffect.damage(10), EventEffect.htBonus(5))
+		));
+
+		register(new NarrativeEvent(
+			"a_carta_sem_remetente",
+			"A Carta Sem Remetente",
+			"Sobre uma pedra, um envelope lacrado com seu nome na frente, na sua própria caligrafia. Você não escreveu carta nenhuma. O lacre é de cera ainda morna.",
+			8, 17, new String[]{}, new String[]{"paranoia", "mistério"},
+			new EventOption("Abrir e ler.",
+				"\"Quando ler isto, você já terá esquecido que escreveu. Está tudo bem. Continue descendo. Confie em mim — em você.\" Você não sabe se relaxa ou treme.",
+				EventEffect.buff("Bless", 80), EventEffect.flag("li_a_carta"), EventEffect.xp(120)),
+			new EventOption("Queimar sem ler.",
+				"Você não quer saber. Queima. As cinzas formam, por um segundo, uma palavra — \"covarde\" ou \"sábio\", você não consegue ler — e somem.",
+				EventEffect.damage(5), EventEffect.htBonus(6)),
+			new EventOption("Guardar lacrada pra depois.",
+				"Você a guarda. Ela esquenta de leve no bolso, viva, paciente, esperando o momento em que você vai precisar mesmo do que ela diz.",
+				EventEffect.item("ScrollOfIdentify"))
+		));
 	}
 
 	private static void register(NarrativeEvent e) {
