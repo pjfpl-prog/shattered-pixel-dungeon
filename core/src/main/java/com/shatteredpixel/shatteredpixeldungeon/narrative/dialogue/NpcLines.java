@@ -51,25 +51,61 @@ public final class NpcLines {
 				return Random.element(new String[]{
 					"...você também veio por causa de " + questFragment + "? Eu falhei.",
 					"Há " + tone + " neste lugar. Sinto desde antes de morrer.",
-					"Conte-me, herói: quem ainda lembra de " + theme + "?"
+					"Conte-me, herói: quem ainda lembra de " + theme + "?",
+					"Eu desci por " + questFragment + " também. Olhe onde parei.",
+					"Não pise onde eu caí. O chão guarda " + tone + " que não some.",
+					"Faz tanto tempo que ninguém fala comigo. Diga: lá fora, ainda há sol?",
+					"Você tem o rosto de quem ainda acredita em " + questFragment + ". Tinha o meu.",
+					"Cada um que passa carrega um pouco de " + tone + ". Você carrega muito.",
+					"Eu morri sem terminar. Talvez por isso ainda esteja de pé. Talvez você termine por mim.",
+					"Não tenha medo de mim, herói. Tenha medo de virar o que eu virei.",
+					"Lembro de " + theme + " como quem lembra de um sonho que doeu. Você vai lembrar também.",
+					"Se um dia subir, diga meu nome em voz alta lá em cima. É só o que peço."
 				});
 			case WANDMAKER:
 				return Random.element(new String[]{
 					"Outro aventureiro tentando " + questFragment + ". Você não é o primeiro.",
 					"Se for sobreviver, lembre-se: este lugar respira " + tone + ".",
-					"Diga que veio por causa de " + theme + " e eu te escuto."
+					"Diga que veio por causa de " + theme + " e eu te escuto.",
+					"Cuidado com o que pede aqui embaixo. " + PtBr.cap(theme) + " responde — do jeito errado.",
+					"Eu vendo conhecimento, não esperança. " + PtBr.cap(tone) + " é de graça, infelizmente.",
+					"Tem coisas neste lugar mais velhas que " + theme + ". Eu aprendi a não acordá-las.",
+					"Você quer " + questFragment + "? Eu quero entender por quê. Comece por aí.",
+					"Já catalogou o medo de hoje? Aqui, " + tone + " vem em doses. Anote as suas.",
+					"Não confie em portas que se abrem fácil. Confie nas que resistem.",
+					"Trago e levo segredos. O seu sobre " + questFragment + " parece pesado. Posso aliviá-lo — por um preço.",
+					"Há um padrão em tudo isto, se você olhar de longe. " + PtBr.cap(theme) + " é só uma página.",
+					"Sobrevivi mais que os corajosos. Saiba o que isso diz sobre coragem."
 				});
 			case BLACKSMITH:
 				return Random.element(new String[]{
 					"Não me incomode com " + questFragment + ". Tenho meu próprio peso.",
 					"Você cheira a " + tone + ". Mantenha distância da minha forja.",
-					"Já vi muitos chegarem por causa de " + theme + ". Poucos saíram."
+					"Já vi muitos chegarem por causa de " + theme + ". Poucos saíram.",
+					"Aço honesto não mente como " + questFragment + " mente. Traga-me metal, não promessas.",
+					"O fogo daqui é teimoso, igual a mim. Some pra antes que eu te ache útil pra martelo.",
+					"Toda lâmina que forjei desceu e não voltou. " + PtBr.cap(theme) + " come ferro e gente igual.",
+					"Você fala muito pra quem ainda não sangrou de verdade. Volte quando " + tone + " for sua.",
+					"Conserto o que quebra, menos gente. Gente que desce já vem rachada.",
+					"Tem fome no seu olhar. Fome é boa pra forja, péssima pra herói.",
+					"Não toque na bigorna. É a única coisa neste buraco que ainda obedece a mim.",
+					"Já bati metal escutando " + theme + " no escuro. As marteladas abafam, mas não calam.",
+					"Quer um conselho de graça? Aqui não tem nada de graça. Esse foi o conselho."
 				});
 			case IMP:
 				return Random.element(new String[]{
 					"Ahá! Mais um curioso atrás de " + questFragment + ". Que delícia.",
 					PtBr.cap(tone) + "? Adorei. Você vai longe — pra baixo, claro.",
-					"Sabe o que dizem de " + theme + "? Eu sei. Mas vai te custar."
+					"Sabe o que dizem de " + theme + "? Eu sei. Mas vai te custar.",
+					"Aventureiro! Posso te vender um atalho, um segredo, ou uma má ideia. Sortudo, hoje tem os três.",
+					"Você quer " + questFragment + ", eu quero me divertir. Vamos nos dar tão bem.",
+					"Adoro o cheiro de " + tone + " de manhã. Quer dizer, aqui não tem manhã. Detalhes!",
+					"Já apostei com mortos mais espertos que você. Perderam. Vai ser divertidíssimo.",
+					"Todo mundo pergunta de " + theme + ". Ninguém pergunta de mim. Que rude, não?",
+					"Te dou uma dica sobre " + questFragment + " de graça — a primeira é sempre de graça, hehe.",
+					"Você desce, eu observo, alguém chora. Geralmente é você. Mas eu torço, prometo!",
+					"Que tal um trato? Você finge que não me viu, e eu finjo que não anotei seu nome.",
+					"Pobre coisinha viva. Tão cheia de planos. " + PtBr.cap(theme) + " também tinha planos pra você."
 				});
 			default:
 				return "...";
