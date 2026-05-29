@@ -39,8 +39,10 @@ import java.util.ArrayList;
 
 public class GooSprite extends MobSprite {
 	
-	private Animation pump;
-	private Animation pumpAttack;
+	// protected (era private) p/ subclasses narrativas reconstruirem as
+	// animacoes ao trocar a textura — ver narrative/sprites/GraveBossSprite.
+	protected Animation pump;
+	protected Animation pumpAttack;
 
 	private Emitter spray;
 
