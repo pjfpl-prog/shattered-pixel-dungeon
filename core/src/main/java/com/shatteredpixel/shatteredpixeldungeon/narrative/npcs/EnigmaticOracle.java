@@ -26,6 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.sprites.RatKingSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndOptions;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.Image;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
@@ -79,7 +80,11 @@ public class EnigmaticOracle extends NPC {
 		Game.runOnRenderThread(new Callback() {
 			@Override
 			public void call() {
-				GameScene.show(new WndOptions("O Oráculo Pergunta", r.question,
+				Image portrait = null;
+				try {
+					portrait = new Image("narrative/oraculo_portrait.png");
+				} catch (Exception ignored) {}
+				GameScene.show(new WndOptions(portrait, "O Oráculo Pergunta", r.question,
 						r.options[0], r.options[1], r.options[2]) {
 					@Override
 					protected void onSelect(int index) {

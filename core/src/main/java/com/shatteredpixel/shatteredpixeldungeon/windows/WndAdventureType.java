@@ -18,11 +18,11 @@ public class WndAdventureType extends WndOptions {
 	public WndAdventureType() {
 		super((Image) Icons.ENTER.get(),
 			"Escolha sua aventura",
-			"Que tipo de jornada você quer viver hoje? Cada caminho oferece um ritmo e um peso diferentes.",
-			"Aventura Clássica — 26 níveis (SPD original, ritmo lento, exploração completa)",
-			"Conto Breve — 5 níveis (uma noite, um boss, uma escolha de alguns minutos)",
-			"Saga — 15 níveis (jornada de uma sessão, profundidade e cadeias)",
-			"Lenda Épica — 20 níveis (a aventura mais longa do modo narrativo)");
+			"Clássica = SPD original. As demais são one-shots narrativas.",
+			"Clássica — 26 níveis",
+			"Conto Breve — 5 níveis",
+			"Saga — 15 níveis",
+			"Lenda Épica — 20 níveis");
 	}
 
 	@Override
