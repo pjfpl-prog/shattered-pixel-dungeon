@@ -21,7 +21,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMappi
 import com.shatteredpixel.shatteredpixeldungeon.levels.SewerLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.Room;
 import com.shatteredpixel.shatteredpixeldungeon.levels.rooms.secret.SecretRoom;
-import com.shatteredpixel.shatteredpixeldungeon.narrative.npcs.EnigmaticOracle;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -31,19 +30,15 @@ public abstract class NarrativeChapter extends SewerLevel {
 	@Override
 	protected ArrayList<Room> initRooms() {
 		ArrayList<Room> rooms = super.initRooms();
-		// Passagem secreta garantida — uma a mais que a contagem padrão.
-		SecretRoom secret = SecretRoom.createRoom();
-		if (secret != null) rooms.add(secret);
-		return rooms;
-	}
-
-	@Override
-	protected void createMobs() {
-		super.createMobs();
-		// ~50% de chance de um Oráculo Silencioso por capítulo.
+		// Passagem secreta garantida — 50% Oráculo, 50% sala padrão.
+		Room extra;
 		if (Random.Int(2) == 0) {
-			NarrativeSpawns.spawnExtra(this, new EnigmaticOracle());
+			extra = new SecretOracleRoom();
+		} else {
+			extra = SecretRoom.createRoom();
 		}
+		if (extra != null) rooms.add(extra);
+		return rooms;
 	}
 
 	@Override

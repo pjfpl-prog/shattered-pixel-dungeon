@@ -10,18 +10,19 @@ package com.shatteredpixel.shatteredpixeldungeon.windows;
 import com.shatteredpixel.shatteredpixeldungeon.SPDSettings;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.HeroSelectScene;
+import com.shatteredpixel.shatteredpixeldungeon.ui.Icons;
+import com.watabou.noosa.Image;
 
 public class WndAdventureType extends WndOptions {
 
-	private static final String TITLE   = "Escolha sua aventura";
-	private static final String MESSAGE = "Que tipo de jornada você quer viver hoje?";
-
 	public WndAdventureType() {
-		super(TITLE, MESSAGE,
-			"Aventura Clássica (26 níveis, SPD original)",
-			"Conto Breve (5 níveis narrativos)",
-			"Saga (15 níveis narrativos)",
-			"Lenda Épica (20 níveis narrativos)");
+		super((Image) Icons.ENTER.get(),
+			"Escolha sua aventura",
+			"Que tipo de jornada você quer viver hoje? Cada caminho oferece um ritmo e um peso diferentes.",
+			"Aventura Clássica — 26 níveis (SPD original, ritmo lento, exploração completa)",
+			"Conto Breve — 5 níveis (uma noite, um boss, uma escolha de alguns minutos)",
+			"Saga — 15 níveis (jornada de uma sessão, profundidade e cadeias)",
+			"Lenda Épica — 20 níveis (a aventura mais longa do modo narrativo)");
 	}
 
 	@Override
@@ -37,6 +38,6 @@ public class WndAdventureType extends WndOptions {
 
 	@Override
 	public void onBackPressed() {
-		// no-op: forçar escolha pra deixar a flag setada.
+		// no-op: força escolha pra deixar a flag setada.
 	}
 }

@@ -6,12 +6,17 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Goo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.levels.PrisonLevel;
 import com.shatteredpixel.shatteredpixeldungeon.levels.SewerBossLevel;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.tiles.DungeonTilemap;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndStory;
 import com.watabou.noosa.Game;
+import com.watabou.noosa.Group;
+import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Callback;
+import com.watabou.utils.PointF;
 
 import java.util.ArrayList;
 
@@ -35,6 +40,27 @@ public class NarrativeBossChapter extends SewerBossLevel {
 				mobs.add(boss);
 			}
 		}
+	}
+
+	@Override
+	public Group addVisuals() {
+		super.addVisuals();
+		// Tochas extras nas paredes adjacentes ao boss pra acentuar a sala final.
+		for (Mob m : mobs) {
+			if (m instanceof NarrativeBoss) {
+				int bossPos = m.pos;
+				int w = width();
+				int[] candidates = { bossPos - w - 1, bossPos - w + 1,
+				                     bossPos + w - 1, bossPos + w + 1 };
+				for (int cell : candidates) {
+					if (cell >= 0 && cell < length()) {
+						visuals.add(new PrisonLevel.Torch(cell));
+					}
+				}
+				break;
+			}
+		}
+		return visuals;
 	}
 
 	@Override
