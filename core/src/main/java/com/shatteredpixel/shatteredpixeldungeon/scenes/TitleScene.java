@@ -148,9 +148,11 @@ public class TitleScene extends PixelScene {
 			@Override
 			protected void onClick() {
 				if (GamesInProgress.checkAll().size() == 0){
+					// Sem saves: mostra o menu de tipo de aventura antes de
+					// ir pra HeroSelectScene (que pulava direto sem dar opção).
 					GamesInProgress.selectedClass = null;
 					GamesInProgress.curSlot = 1;
-					ShatteredPixelDungeon.switchScene(HeroSelectScene.class);
+					add(new com.shatteredpixel.shatteredpixeldungeon.windows.WndAdventureType());
 				} else {
 					ShatteredPixelDungeon.switchNoFade( StartScene.class );
 				}
