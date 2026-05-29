@@ -101,18 +101,27 @@ public class EnigmaticOracle extends NPC {
 
 	private void resolve(Riddle r, int chosen) {
 		answered = true;
-		Hero hero = Dungeon.hero;
-		if (chosen == r.correct) {
-			GLog.p("O Oráculo assente. \"Você sabia.\"");
+		final Hero hero = Dungeon.hero;
+		final boolean correct = chosen == r.correct;
+		final String resultText;
+		if (correct) {
+			resultText = "O Oráculo assente devagar. \"Você sabia. Aceite o que segue.\"";
 			grantReward(hero);
 		} else {
-			GLog.n("O Oráculo te encara em silêncio. Você sente o erro como peso no peito.");
+			resultText = "O Oráculo te encara em silêncio. Você sente o erro como peso no peito.";
 			if (hero != null) {
 				int dmg = Math.max(1, hero.HT / 10);
 				hero.HP = Math.max(1, hero.HP - dmg);
-				GLog.n("Você perde %d de vida.", dmg);
 			}
 		}
+		Game.runOnRenderThread(new Callback() {
+			@Override public void call() {
+				Image p = null;
+				try { p = new Image("narrative/oraculo_portrait.png"); } catch (Exception ignored) {}
+				GameScene.show(new com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage(
+					p, correct ? "Resposta Certa" : "Resposta Errada", resultText));
+			}
+		});
 	}
 
 	private void grantReward(Hero hero) {

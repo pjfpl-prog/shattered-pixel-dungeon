@@ -640,6 +640,18 @@ public class GameScene extends PixelScene {
 					NarrativeDirector.markBossRevealed();
 				}
 
+				// Hint do boss no penúltimo piso da one-shot.
+				int len = NarrativeDirector.oneShotLength();
+				if (NarrativeDirector.oneShotMode() && len > 1
+						&& Dungeon.depth == len - 1
+						&& !NarrativeDirector.bossHintShown()) {
+					String boss = NarrativeDirector.bossIdentity();
+					if (boss != null && !boss.isEmpty()) {
+						GLog.n("O ar fica espesso. %s te aguarda no andar de baixo.", boss);
+					}
+					NarrativeDirector.markBossHintShown();
+				}
+
 				if (Dungeon.depth == 26 && !NarrativeDirector.endingShown()) {
 					final String epilog = NarrativeDirector.endingText();
 					com.watabou.noosa.Game.runOnRenderThread(new com.watabou.utils.Callback() {

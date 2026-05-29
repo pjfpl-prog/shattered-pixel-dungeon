@@ -80,6 +80,9 @@ public class AdventureSeed implements Bundlable {
 	// Marca se o epílogo da run já foi mostrado (piso 26, vitória).
 	public boolean endingShown = false;
 
+	// Hint de boss no penúltimo piso já mostrado.
+	public boolean bossHintShown = false;
+
 	private static final String ADVENTURE_TITLE     = "adventure_title";
 	private static final String DUNGEON_THEME       = "dungeon_theme";
 	private static final String MAIN_QUEST          = "main_quest";
@@ -96,6 +99,7 @@ public class AdventureSeed implements Bundlable {
 	private static final String INTRO_SHOWN         = "intro_shown";
 	private static final String BOSS_REVEALED       = "boss_revealed";
 	private static final String ENDING_SHOWN        = "ending_shown";
+	private static final String BOSS_HINT_SHOWN     = "boss_hint_shown";
 
 	@Override
 	public void storeInBundle(Bundle bundle) {
@@ -133,6 +137,7 @@ public class AdventureSeed implements Bundlable {
 		bundle.put(INTRO_SHOWN,         introShown);
 		bundle.put(BOSS_REVEALED,       bossRevealed);
 		bundle.put(ENDING_SHOWN,        endingShown);
+		bundle.put(BOSS_HINT_SHOWN,     bossHintShown);
 	}
 
 	@Override
@@ -145,6 +150,7 @@ public class AdventureSeed implements Bundlable {
 		introShown        = bundle.getBoolean(INTRO_SHOWN);
 		bossRevealed      = bundle.getBoolean(BOSS_REVEALED);
 		endingShown       = bundle.getBoolean(ENDING_SHOWN);
+		bossHintShown     = bundle.getBoolean(BOSS_HINT_SHOWN);
 
 		mainQuestChain.clear();
 		if (bundle.contains(MAIN_QUEST_CHAIN)) {

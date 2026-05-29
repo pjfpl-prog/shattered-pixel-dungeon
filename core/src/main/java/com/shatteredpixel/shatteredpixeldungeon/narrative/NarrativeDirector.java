@@ -323,6 +323,14 @@ public final class NarrativeDirector {
 		if (currentSeed != null) currentSeed.endingShown = true;
 	}
 
+	public static boolean bossHintShown() {
+		return currentSeed != null && currentSeed.bossHintShown;
+	}
+
+	public static void markBossHintShown() {
+		if (currentSeed != null) currentSeed.bossHintShown = true;
+	}
+
 	public static String endingText() {
 		return EndingGenerator.generate();
 	}
