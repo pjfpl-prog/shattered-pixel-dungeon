@@ -44,17 +44,22 @@ public abstract class NarrativeChapter extends SewerLevel {
 	@Override
 	protected void createItems() {
 		super.createItems();
-		// Drop mágico extra: alterna entre cura, identificar e mapeamento.
-		Item extra;
-		switch (Random.Int(3)) {
-			case 0:  extra = new PotionOfHealing();    break;
-			case 1:  extra = new ScrollOfIdentify();   break;
-			default: extra = new ScrollOfMagicMapping();
+		int length = com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector.oneShotLength();
+		// Quantos extras por piso: Conto (5) = 3; Saga (15) = 2; Lenda (20) = 1.
+		int extras = length <= 5 ? 3 : (length <= 15 ? 2 : 1);
+		for (int i = 0; i < extras; i++) {
+			Item it;
+			switch (Random.Int(3)) {
+				case 0:  it = new PotionOfHealing();    break;
+				case 1:  it = new ScrollOfIdentify();   break;
+				default: it = new ScrollOfMagicMapping();
+			}
+			addItemToSpawn(it);
 		}
-		addItemToSpawn(extra);
-
-		// Mais um item da pool de scrolls/potions com chance.
-		if (Random.Int(2) == 0) {
+		// Bônus aleatório da pool padrão de scrolls/potions
+		// — mais comum em runs curtas.
+		int bonusChance = length <= 5 ? 100 : (length <= 15 ? 50 : 30);
+		if (Random.Int(100) < bonusChance) {
 			addItemToSpawn(Generator.random(Random.Int(2) == 0
 					? Generator.Category.POTION
 					: Generator.Category.SCROLL));

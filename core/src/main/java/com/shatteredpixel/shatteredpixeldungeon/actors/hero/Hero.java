@@ -1966,10 +1966,16 @@ public class Hero extends Char {
 	
 	public void earnExp( int exp, Class source ) {
 
-		// Modo one-shot narrativo: progressão 1.5x mais rápida (run é curta).
+		// Modo one-shot narrativo: progressão escalada inversamente ao tamanho
+		// da run (Conto de 5 níveis precisa acelerar muito; Lenda de 20, pouco).
 		if (com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector.oneShotMode()
 				&& source != AscensionChallenge.class) {
-			exp = Math.round(exp * 1.5f);
+			int length = com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector.oneShotLength();
+			float mult;
+			if (length <= 5)       mult = 2.5f;
+			else if (length <= 15) mult = 1.5f;
+			else                   mult = 1.2f;
+			exp = Math.round(exp * mult);
 		}
 
 		//xp granted by ascension challenge is only for on-exp gain effects
