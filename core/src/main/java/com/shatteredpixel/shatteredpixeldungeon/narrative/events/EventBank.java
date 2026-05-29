@@ -1893,6 +1893,125 @@ public final class EventBank {
 				"Você o enfrenta. Ele luta por dever, não por ódio, e isso torna tudo pior. Ao cair, sussurra \"obrigado\" — descansar era tudo o que queria. Você passa pesado.",
 				EventEffect.damage(20), EventEffect.gold(100), EventEffect.htBonus(6))
 		));
+
+		// ============================================================
+		// BLOCO 5 — A Expedição Esquecida e a Máquina Antiga
+		// ============================================================
+
+		// === Cadeia 10: A Expedição Esquecida ===
+		register(new NarrativeEvent(
+			"expedicao_acampamento",
+			"O Acampamento Abandonado",
+			"Restos de um acampamento organizado: barracas, fogueira fria, um quadro de avisos com uma lista de nomes — e todos riscados, menos um, no fim, ainda em branco. Há espaço pra mais um nome. O seu cabe.",
+			2, 8, new String[]{"Expedição Esquecida"}, new String[]{"mistério"},
+			new EventOption("Escrever seu nome na lista.",
+				"Você se inscreve na expedição que já morreu. As barracas, por um segundo, parecem cheias de novo. Você herda um propósito e uma maldição leve: terminar o que eles não terminaram.",
+				EventEffect.flag("entrei_na_expedicao"), EventEffect.xp(130)),
+			new EventOption("Vasculhar os suprimentos.",
+				"Comida estragada, mas no fundo de uma mochila, intacta, uma poção que alguém guardava pro fim — um fim que não chegou pra ele.",
+				EventEffect.item("PotionOfHealing"), EventEffect.flag("entrei_na_expedicao")),
+			new EventOption("Queimar o acampamento como pira.",
+				"Você ateia fogo aos restos, em respeito. As chamas sobem altas. Os nomes riscados queimam juntos, enfim livres do quadro. Você segue, e eles não te seguem.",
+				EventEffect.xp(160), EventEffect.flag("queimei_o_acampamento"))
+		));
+
+		register(new NarrativeEvent(
+			"expedicao_diario",
+			"O Diário do Líder",
+			"Mais fundo, o diário do líder da expedição. As últimas páginas: \"Perdemos três. O cartógrafo enlouqueceu. Eu sigo sozinho atrás do que viemos buscar. Se alguém ler isto: não era um tesouro. Era uma pessoa. Ela ainda está viva lá embaixo.\"",
+			9, 16, new String[]{}, new String[]{"tragédia", "mistério"},
+			new String[]{"entrei_na_expedicao"},
+			new EventOption("Jurar achar quem eles buscavam.",
+				"Você fecha o diário e assume a missão deles como sua. Não um tesouro: uma pessoa. Isso muda o jeito como você desce — com pressa de quem resgata, não de quem saqueia.",
+				EventEffect.flag("busco_a_pessoa"), EventEffect.xp(220), EventEffect.htBonus(6)),
+			new EventOption("Arrancar o mapa preso na última página.",
+				"Você toma o mapa que o líder desenhou até morrer. Leva direto a algum fundo. Você não jura nada — mas guarda o diário, e ele pesa como uma cobrança.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.flag("busco_a_pessoa"))
+		));
+
+		register(new NarrativeEvent(
+			"expedicao_reencontro",
+			"O Que a Expedição Buscava",
+			"No fundo, numa cela de raízes, uma pessoa viva — impossivelmente, ainda viva, sustentada por algo que você não quer entender. Ela ergue os olhos. \"Vocês... voltaram? Demorou tanto. Eu já não sei mais se quero sair.\"",
+			18, 24, new String[]{"Expedição Esquecida"}, new String[]{"tragédia", "esperança"},
+			new String[]{"busco_a_pessoa"},
+			new EventOption("Libertá-la, custe o que custar.",
+				"Você arranca as raízes uma a uma, e elas resistem, e doem em você também. Mas ela sai. Cambaleia pra luz. \"A expedição... eles conseguiram, no fim. Através de você.\" Algo enorme se cura.",
+				EventEffect.xp(360), EventEffect.heal(40), EventEffect.htBonus(12), EventEffect.markQuestStep(4), EventEffect.flag("completei_a_expedicao")),
+			new EventOption("Perguntar o que a sustenta há tanto tempo.",
+				"\"O mesmo que sustenta a masmorra. Se eu sair, talvez tudo aqui caia comigo. Você ainda quer me tirar?\" A escolha pesa muito pra um corredor escuro.",
+				EventEffect.xp(260), EventEffect.flag("soube_o_preco"),
+				EventEffect.lore("A pessoa que a expedição buscava sustenta a masmorra. Libertá-la pode derrubar tudo.")),
+			new EventOption("Deixá-la em paz, se é o que ela quer.",
+				"Você respeita o cansaço dela de séculos. Recoloca uma raiz solta com gentileza. \"Obrigada por perguntar antes de decidir por mim.\" Você sobe carregando a dúvida pra sempre.",
+				EventEffect.heal(30), EventEffect.flag("respeitei_a_escolha_dela"))
+		));
+
+		// === Avulsos: Máquina Antiga e diversos ===
+
+		register(new NarrativeEvent(
+			"o_autômato_que_pinta",
+			"O Autômato Que Pinta",
+			"Um autômato enferrujado, de braço fino, pinta a mesma paisagem na parede há tanto tempo que cavou um sulco na pedra. É um campo ensolarado — coisa que não existe aqui embaixo. Ele não para pra te olhar.",
+			8, 17, new String[]{"Despertar de Máquina Antiga"}, new String[]{"esperança", "tragédia"},
+			new EventOption("Trazer-lhe uma cor nova.",
+				"Você esfrega pigmento de musgo no pincel dele. O autômato hesita, processa, e adiciona um verde que nunca teve. A paisagem ganha vida. Ele emite um som que só pode ser alegria.",
+				EventEffect.buff("Bless", 100), EventEffect.xp(160), EventEffect.flag("dei_cor_ao_automato")),
+			new EventOption("Desligá-lo, encerrando a repetição.",
+				"Você acha o interruptor nas costas dele. O braço para no ar, a meio traço. Talvez fosse misericórdia parar a repetição eterna. Talvez você só tenha matado um artista. A paisagem fica inacabada pra sempre.",
+				EventEffect.xp(180), EventEffect.damage(8), EventEffect.flag("desliguei_o_automato")),
+			new EventOption("Levar a 'pintura' raspando a pedra.",
+				"Você raspa o sulco pintado e leva os fragmentos. O autômato continua pintando o vazio agora, sem perceber. Você carrega um pedaço de sol roubado de uma máquina cega.",
+				EventEffect.gold(90), EventEffect.item("ScrollOfIdentify"))
+		));
+
+		register(new NarrativeEvent(
+			"a_engrenagem_solitaria",
+			"A Engrenagem Solitária",
+			"Uma engrenagem dourada gira sozinha no ar, sem máquina ao redor, mantendo um ritmo perfeito e inútil. Encaixá-la em algo poderia mover montanhas. Ou poderia ser a única coisa segurando o teto.",
+			11, 20, new String[]{"Despertar de Máquina Antiga"}, new String[]{"mistério", "paranoia"},
+			new EventOption("Tirá-la do ar e guardar.",
+				"Você a agarra. Ela continua girando na sua mão, viva, quente. Útil, valiosa — e em algum lugar acima, algo range, como se uma peça importante tivesse acabado de faltar.",
+				EventEffect.item("PotionOfMindVision"), EventEffect.damage(10), EventEffect.flag("tirei_a_engrenagem")),
+			new EventOption("Deixá-la girar e seguir.",
+				"Você decide não mexer no que funciona, mesmo sem entender. Às vezes a coragem é não tocar. O ritmo da engrenagem te acompanha como um coração calmo até a próxima escada.",
+				EventEffect.heal(20), EventEffect.xp(120)),
+			new EventOption("Acelerá-la com a mão.",
+				"Você empurra a engrenagem mais rápido. O ar zumbe. Por um momento eufórico, tudo na masmorra parece girar mais depressa — inclusive seu próprio sangue. Você solta antes que algo quebre.",
+				EventEffect.buff("Recharging", 100), EventEffect.damage(12))
+		));
+
+		register(new NarrativeEvent(
+			"o_jukebox_de_lamentos",
+			"A Caixa de Lamentos",
+			"Uma caixa de música enorme, do tamanho de um armário, com uma manivela. Ao girar, em vez de melodia, ela toca lamentos gravados — as últimas palavras de quem morreu aqui, uma por volta.",
+			9, 18, new String[]{}, new String[]{"tragédia", "decadência"},
+			new EventOption("Girar e ouvir até o fim.",
+				"Você escuta dezenas de adeuses, medos, perdões tardios. É insuportável e necessário. No último, uma voz diz \"valeu a pena viver\" — e isso, depois de tudo, te endireita as costas.",
+				EventEffect.heal(40), EventEffect.buff("Bless", 80), EventEffect.flag("ouvi_os_lamentos")),
+			new EventOption("Gravar seu próprio lamento na caixa.",
+				"Você acha o cilindro vazio e fala nele o que diria se fosse o fim. Sela na caixa. Agora, se você morrer aqui, alguém vai ouvir. Estranhamente, isso te dá vontade de não morrer.",
+				EventEffect.xp(180), EventEffect.flag("gravei_meu_lamento")),
+			new EventOption("Quebrar a manivela.",
+				"Você arranca a manivela. Os lamentos calam no meio de uma palavra. O silêncio é um alívio covarde — você não quis ouvir o resto. Guarda a peça de metal, que pesa como omissão.",
+				EventEffect.gold(70), EventEffect.damage(8))
+		));
+
+		register(new NarrativeEvent(
+			"a_porta_com_seu_tamanho",
+			"A Porta do Seu Tamanho Exato",
+			"Uma porta pequena, recortada na medida precisa do seu corpo — nem um dedo de folga. Foi feita pra você, especificamente, e pra mais ninguém. Do outro lado, uma luz que não promete nada e nada esconde.",
+			16, 24, new String[]{}, new String[]{"mistério", "esperança"},
+			new EventOption("Atravessar.",
+				"Você passa, justo, raspando os ombros. Do outro lado: um atalho que parece existir só porque você existe. A masmorra, pela primeira vez, parece ter feito algo a seu favor.",
+				EventEffect.item("ScrollOfMagicMapping"), EventEffect.xp(200), EventEffect.flag("atravessei_a_porta_minha")),
+			new EventOption("Medir-se de novo, desconfiado.",
+				"Você confere: serve exata. Bom demais. Você bate na moldura, procura armadilha, não acha. Às vezes uma dádiva é só uma dádiva — mas você passa de lado, por via das dúvidas.",
+				EventEffect.heal(20), EventEffect.xp(120)),
+			new EventOption("Recusar-se a usar uma porta feita pra você.",
+				"\"Eu escolho meus caminhos.\" Você dá as costas à porta sob medida e procura outra saída, mais difícil, mais sua. A porta range atrás de você, quase magoada.",
+				EventEffect.htBonus(8), EventEffect.flag("recusei_a_porta_minha"))
+		));
 	}
 
 	private static void register(NarrativeEvent e) {
