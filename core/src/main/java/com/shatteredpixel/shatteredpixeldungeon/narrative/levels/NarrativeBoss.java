@@ -12,6 +12,7 @@ package com.shatteredpixel.shatteredpixeldungeon.narrative.levels;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Goo;
 import com.shatteredpixel.shatteredpixeldungeon.narrative.NarrativeDirector;
+import com.shatteredpixel.shatteredpixeldungeon.narrative.sprites.GraveBossSprite;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndTitledMessage;
 import com.watabou.noosa.Game;
@@ -20,6 +21,10 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.Callback;
 
 public class NarrativeBoss extends Goo {
+
+	{
+		spriteClass = GraveBossSprite.class;
+	}
 
 	private boolean greeted = false;
 
